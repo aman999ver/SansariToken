@@ -11,7 +11,9 @@ Offline-first token and payment collection system for श्री संसा�
 
 ## Backend deployment
 
-Connect this repository to Render as a Blueprint. Render will use `render.yaml`, run the backend from `backend/`, keep the web service running on the paid `starter` plan, and health-check `/health`.
+Connect this repository to Render as a Blueprint. Render will use `render.yaml`, run the backend from `backend/`, and health-check `/health`.
+
+The current blueprint uses Render's free plan, so no card is required. Render Free may spin down the service after inactivity; the first request after sleep can take a little longer. Always-on operation requires a paid plan.
 
 The public backend URL will be:
 
