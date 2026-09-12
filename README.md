@@ -27,6 +27,8 @@ Render may add a suffix if that service name is already taken. Copy the actual U
 GET https://<your-render-url>/health
 ```
 
+The API root (`/`) returns a friendly service status response instead of a route error. GitHub Actions also checks `/health` every 14 minutes through `.github/workflows/render-healthcheck.yml`. This may reduce cold starts, but Render Free can still sleep; guaranteed always-on operation requires a paid plan.
+
 Set these Render environment variables:
 
 - `MONGODB_URI`

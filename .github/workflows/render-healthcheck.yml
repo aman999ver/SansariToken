@@ -1,0 +1,13 @@
+name: Render health check
+
+on:
+  schedule:
+    - cron: '*/14 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check backend health
+        run: curl --fail --silent --show-error --max-time 60 https://sansari-token-backend.onrender.com/health
