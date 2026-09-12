@@ -1,0 +1,11 @@
+const router = require('express').Router();
+const controller = require('../controllers/reportController');
+const { requireAuth } = require('../middleware/auth');
+const asyncHandler = require('../utils/asyncHandler');
+router.use(requireAuth);
+router.get('/summary', asyncHandler(controller.summary));
+router.get('/transactions', asyncHandler(controller.transactions));
+router.get('/device/:deviceId', asyncHandler(controller.deviceReport));
+router.get('/daily', asyncHandler(controller.daily));
+router.get('/devices/status', asyncHandler(controller.deviceStatus));
+module.exports = router;

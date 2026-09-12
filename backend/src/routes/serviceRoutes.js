@@ -1,0 +1,10 @@
+const router = require('express').Router();
+const controller = require('../controllers/serviceController');
+const { requireAuth } = require('../middleware/auth');
+const asyncHandler = require('../utils/asyncHandler');
+router.get('/', asyncHandler(controller.list));
+router.use(requireAuth);
+router.post('/', asyncHandler(controller.create));
+router.patch('/:id', asyncHandler(controller.update));
+router.delete('/:id', asyncHandler(controller.remove));
+module.exports = router;

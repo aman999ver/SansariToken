@@ -1,0 +1,11 @@
+const router = require('express').Router();
+const controller = require('../controllers/deviceController');
+const { requireAuth } = require('../middleware/auth');
+const asyncHandler = require('../utils/asyncHandler');
+router.post('/register', asyncHandler(controller.register));
+router.get('/available', asyncHandler(controller.available));
+router.post('/', requireAuth, asyncHandler(controller.create));
+router.get('/', requireAuth, asyncHandler(controller.list));
+router.get('/:deviceId', requireAuth, asyncHandler(controller.getOne));
+router.patch('/:deviceId', requireAuth, asyncHandler(controller.update));
+module.exports = router;
