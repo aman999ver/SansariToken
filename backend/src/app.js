@@ -8,7 +8,7 @@ const { sendSuccess } = require('./utils/apiResponse');
 
 const app = express();
 app.use(helmet());
-app.use(cors({ origin: env.corsOrigins.length ? env.corsOrigins : false }));
+app.use(cors({ origin: env.corsOrigins.includes('*') ? '*' : (env.corsOrigins.length ? env.corsOrigins : false) }));
 app.use(express.json({ limit: '1mb' }));
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: 'draft-7', legacyHeaders: false }));
 app.get('/health', (req, res) => sendSuccess(res, { service: 'token-payment-backend', timestamp: new Date().toISOString() }));

@@ -11,15 +11,39 @@ Offline-first token and payment collection system for श्री संसा�
 
 ## Backend deployment
 
-Connect this repository to Render as a Blueprint. Render will use `render.yaml`, run the backend from `backend/`, keep the web service running, and health-check `/health`.
+Connect this repository to Render as a Blueprint. Render will use `render.yaml`, run the backend from `backend/`, keep the web service running on the paid `starter` plan, and health-check `/health`.
+
+The public backend URL will be:
+
+```text
+https://sansari-token-backend.onrender.com
+```
+
+Render may add a suffix if that service name is already taken. Copy the actual URL from the Render service page after the first deploy. Verify it with:
+
+```text
+GET https://<your-render-url>/health
+```
 
 Set these Render environment variables:
 
 - `MONGODB_URI`
 - `JWT_SECRET`
-- `CORS_ORIGINS`
 - `ADMIN_USERNAME`
 - `ADMIN_PASSWORD`
+
+`render.yaml` currently sets `CORS_ORIGINS=*` for initial setup. After the admin and mobile URLs are deployed, replace it with a comma-separated allowlist of trusted origins.
+
+Recommended initial values:
+
+```text
+MONGODB_URI=<your MongoDB Atlas URI>
+JWT_SECRET=<long random secret>
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=<strong production password>
+```
+
+The mobile API base URL is configured in `mobile/src/constants/appConfig.js`; update it to the actual Render URL before producing the final APK. The admin dashboard uses `NEXT_PUBLIC_API_URL`, which should also point to the Render URL when deployed separately.
 
 Do not commit local `.env` files.
 
