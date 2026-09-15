@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 const TEMPLE_NAME = 'श्री संसारी माई मन्दिर व्यवस्थापन समिति';
@@ -43,6 +43,8 @@ export default function Home() {
   const [limit, setLimit] = useState(25);
   const [pagination, setPagination] = useState({ page: 1, limit: 25, total: 0, pages: 1 });
   const [summaryData, setSummaryData] = useState({ totals: { tokens: 0, collection: 0 }, services: [] });
+  const txnReqIdRef = useRef(0);
+  const dateDebounceRef = useRef(null);
 
   const [deviceId, setDeviceId] = useState('');
   const [deviceName, setDeviceName] = useState('');
@@ -123,7 +125,17 @@ export default function Home() {
     } catch {}
   }
 
+  function handleDateFilter(newDate) {
+    setFilterDate(newDate);
+    setPage(1);
+    if (dateDebounceRef.current) clearTimeout(dateDebounceRef.current);
+    dateDebounceRef.current = setTimeout(() => {
+      loadTransactions({ date: newDate, page: 1 });
+    }, 400);
+  }
+
   async function loadTransactions(override = {}) {
+    const currentReqId = ++txnReqIdRef.current;
     const activeDate = override.date !== undefined ? override.date : filterDate;
     const activeDevice = override.deviceId !== undefined ? override.deviceId : filterDeviceId;
     const activeUser = override.userName !== undefined ? override.userName : filterUserName;
@@ -132,7 +144,7 @@ export default function Home() {
     const activeLimit = override.limit !== undefined ? override.limit : limit;
 
     const params = new URLSearchParams();
-    if (activeDate) params.set('date', activeDate);
+    if (activeDate && activeDate.trim()) params.set('date', activeDate.trim());
     if (activeDevice && activeDevice !== 'ALL') params.set('deviceId', activeDevice);
     if (activeUser && activeUser !== 'ALL') params.set('userName', activeUser);
     if (activeService && activeService !== 'ALL') params.set('serviceName', activeService);
@@ -144,6 +156,7 @@ export default function Home() {
         headers: { Authorization: `Bearer ${token}` }
       });
       const body = await response.json();
+      if (currentReqId !== txnReqIdRef.current) return;
       if (response.ok) {
         setTransactions(body.transactions || []);
         if (body.pagination) setPagination(body.pagination);
@@ -152,6 +165,7 @@ export default function Home() {
         setMessage(body.message || t.error);
       }
     } catch (error) {
+      if (currentReqId !== txnReqIdRef.current) return;
       setMessage(error.message || t.error);
     }
   }

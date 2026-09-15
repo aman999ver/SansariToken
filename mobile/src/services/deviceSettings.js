@@ -19,3 +19,7 @@ export async function saveDeviceSettings({ deviceId, deviceName }) {
 export async function saveUserSettings({ username, displayName }) {
   await AsyncStorage.multiSet([[USERNAME_KEY, username], [USER_NAME_KEY, displayName]]);
 }
+
+export async function clearUserSettings() {
+  await AsyncStorage.multiRemove([USERNAME_KEY, USER_NAME_KEY]);
+}

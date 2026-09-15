@@ -14,33 +14,39 @@ function escapeRegex(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function buildNepaliDateRegex(input) {
-  const parts = input.split(/[/\\-]/).map((p) => p.trim()).filter(Boolean);
+function buildNepaliDatePattern(input) {
+  const clean = input.trim();
+  const parts = clean.split(/[/\\-]/).map((p) => p.trim()).filter(Boolean);
   if (parts.length > 1) {
-    return new RegExp(
-      '^' + parts.map((part) => {
-        const eng = toEnglishDigits(part);
-        if (eng.length === 1) {
-          const idx = Number(eng);
-          return `[0०]?[${idx}${nepaliDigits[idx]}]`;
+    return '^' + parts.map((part, index) => {
+      const eng = toEnglishDigits(part);
+      if (index > 0 && eng.length <= 2) {
+        const val = Number(eng);
+        if (!isNaN(val)) {
+          if (val < 10) {
+            return `[0०]?[${val}${nepaliDigits[val]}]`;
+          }
+          const d1 = Math.floor(val / 10);
+          const d2 = val % 10;
+          return `[${d1}${nepaliDigits[d1]}][${d2}${nepaliDigits[d2]}]`;
         }
-        return Array.from(part).map((ch) => {
-          if (/[0-9]/.test(ch)) {
-            const idx = Number(ch);
-            return `[${idx}${nepaliDigits[idx]}]`;
-          }
-          if (/[०-९]/.test(ch)) {
-            const idx = nepaliDigits.indexOf(ch);
-            return `[${idx}${ch}]`;
-          }
-          return ch.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-        }).join('');
-      }).join('[/\\-]')
-    );
+      }
+      return Array.from(part).map((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const idx = Number(ch);
+          return `[${idx}${nepaliDigits[idx]}]`;
+        }
+        if (/[०-९]/.test(ch)) {
+          const idx = nepaliDigits.indexOf(ch);
+          return `[${idx}${ch}]`;
+        }
+        return ch.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+      }).join('');
+    }).join('[/\\-]');
   }
 
   let pattern = '^';
-  for (const ch of input) {
+  for (const ch of clean) {
     if (/[0-9]/.test(ch)) {
       const idx = Number(ch);
       pattern += `[${idx}${nepaliDigits[idx]}]`;
@@ -55,7 +61,7 @@ function buildNepaliDateRegex(input) {
       pattern += ch.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
     }
   }
-  return new RegExp(pattern);
+  return pattern;
 }
 
 async function dateMatch(query) {
@@ -90,17 +96,23 @@ async function dateMatch(query) {
   const rawDate = (query.nepaliDate || query.date || '').trim();
   if (rawDate) {
     const engDate = toEnglishDigits(rawDate);
-    // Check if it's a Nepali BS year (e.g. 2070 - 2099 or २०७० - २०९९)
-    if (/^20[789]\d/.test(engDate) || /[०-९]/.test(rawDate)) {
-      match.nepaliDate = buildNepaliDateRegex(rawDate);
+    const pattern = buildNepaliDatePattern(rawDate);
+    const nepaliMatch = { $regex: pattern, $options: 'i' };
+
+    // If it's a Bikram Sambat year (207x, 208x, 209x or Nepali digits)
+    if (/^20[789]/.test(engDate) || /[०-९]/.test(rawDate)) {
+      match.nepaliDate = nepaliMatch;
     } else {
       const start = new Date(`${rawDate}T00:00:00.000Z`);
       if (!isNaN(start.getTime())) {
         const end = new Date(start);
         end.setUTCDate(end.getUTCDate() + 1);
-        match.createdAtDevice = { $gte: start, $lt: end };
+        match.$or = [
+          { createdAtDevice: { $gte: start, $lt: end } },
+          { nepaliDate: nepaliMatch }
+        ];
       } else {
-        match.nepaliDate = buildNepaliDateRegex(rawDate);
+        match.nepaliDate = nepaliMatch;
       }
     }
   } else if (query.startDate || query.endDate) {

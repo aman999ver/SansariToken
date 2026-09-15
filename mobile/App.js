@@ -7,7 +7,7 @@ import { createTransaction, countPendingTransactions, getSetting, initializeData
 import { defaultServices } from './src/constants/defaultServices';
 import { API_BASE_URL, TEMPLE_NAME } from './src/constants/appConfig';
 import { fetchAvailableDevices, fetchServices, loginUser } from './src/services/api';
-import { getDeviceSettings, saveDeviceSettings, saveUserSettings } from './src/services/deviceSettings';
+import { clearUserSettings, getDeviceSettings, saveDeviceSettings, saveUserSettings } from './src/services/deviceSettings';
 import { printerService } from './src/services/printer/mockPrinterService';
 import { syncPendingTransactions } from './src/services/syncService';
 import { getReceiptDetails } from './src/utils/receipt';
@@ -56,13 +56,32 @@ export default function App() {
   }, [ready, screen, settings]);
 
   if (!ready) return <Centered><ActivityIndicator size="large" color="#0b6b62" /></Centered>;
-  if (screen === 'login') return <LoginScreen onLogin={async (username, password) => { const user = await loginUser(API_BASE_URL, username, password); await saveUserSettings({ username: user.username, displayName: user.displayName }); setSettings((current) => ({ ...current, username: user.username, user_name: user.displayName })); setScreen('setup'); }} />;
+  if (screen === 'login') return <LoginScreen onLogin={async (username, password) => { const user = await loginUser(API_BASE_URL, username, password); await saveUserSettings({ username: user.username, displayName: user.displayName }); setSettings((current) => ({ ...current, username: user.username, user_name: user.displayName })); setScreen(settings.device_id ? 'services' : 'setup'); }} />;
   if (screen === 'setup') return <SetupScreen settings={settings} onSave={async (next) => { await saveDeviceSettings(next); setSettings((current) => ({ ...current, device_id: next.deviceId, device_name: next.deviceName })); setScreen('services'); }} />;
   if (screen === 'detail') return <DetailScreen service={selectedService} onBack={() => setScreen('services')} onSelect={(option) => { setSelectedOption(option); setAmount(String(option?.price ?? '')); setScreen('confirm'); }} />;
   if (screen === 'confirm') return <ConfirmScreen service={selectedService} option={selectedOption} amount={amount} setAmount={setAmount} onBack={() => setScreen('detail')} onConfirm={() => generateToken()} />;
   if (screen === 'success') return <SuccessScreen transaction={lastTransaction} onHome={() => setScreen('services')} onHistory={openHistory} />;
   if (screen === 'history') return <HistoryScreen apiUrl={API_BASE_URL} deviceId={settings.device_id} pendingCount={pendingCount} onPendingChange={setPendingCount} onBack={() => setScreen('services')} />;
-  return <ServiceScreen services={services} pendingCount={pendingCount} online={online} onSelect={(service) => { setSelectedService(service); setScreen('detail'); }} onHistory={openHistory} />;
+  return <ServiceScreen services={services} settings={settings} pendingCount={pendingCount} online={online} onSelect={(service) => { setSelectedService(service); setScreen('detail'); }} onHistory={openHistory} onLogout={handleLogout} />;
+
+  function handleLogout() {
+    Alert.alert(
+      'लगआउट पुष्टि',
+      'के तपाईं आफ्नो खाताबाट बाहिरिन चाहनुहुन्छ?',
+      [
+        { text: 'रद्द', style: 'cancel' },
+        {
+          text: 'बाहिरिनुहोस्',
+          style: 'destructive',
+          onPress: async () => {
+            await clearUserSettings();
+            setSettings((current) => ({ ...current, username: '', user_name: '' }));
+            setScreen('login');
+          }
+        }
+      ]
+    );
+  }
 
   async function generateToken() {
     const numericAmount = Number(amount);
@@ -113,8 +132,51 @@ function SetupScreen({ settings, onSave }) {
   return <SafeAreaView style={styles.safe}><View style={styles.setup}><Text style={styles.brand}>{TEMPLE_NAME}</Text><Text style={styles.title}>काउन्टर छनोट</Text><Text style={styles.muted}>यो उपकरणमा काउन्टर एकपटक मात्र चयन गर्नुहोस्।</Text>{loading ? <ActivityIndicator color="#0b6b62" /> : devices.length ? devices.map((device) => <Pressable key={device.deviceId} onPress={() => setSelectedId(device.deviceId)} style={[styles.optionButton, selectedId === device.deviceId && styles.selectedOption]}><View><Text style={styles.serviceName}>{device.deviceName}</Text><Text style={styles.serviceMeta}>{device.deviceId}</Text></View><Text style={styles.amount}>{selectedId === device.deviceId ? '✓' : ''}</Text></Pressable>) : <Text style={styles.muted}>कुनै सक्रिय काउन्टर भेटिएन। पहिले admin बाट काउन्टर थप्नुहोस्।</Text>}<PrimaryButton title="काउन्टर सुरक्षित गर्नुहोस्" onPress={() => selected ? onSave({ deviceId: selected.deviceId, deviceName: selected.deviceName }) : Alert.alert('काउन्टर छनोट गर्नुहोस्')} /></View></SafeAreaView>;
 }
 
-function ServiceScreen({ services, pendingCount, online, onSelect, onHistory }) {
-  return <SafeAreaView style={styles.safe}><ScrollView contentContainerStyle={styles.content}><View style={styles.header}><View><Text style={styles.eyebrow}>सेवा छनोट</Text><Text style={styles.title}>आजको संकलन</Text></View><StatusPill online={online} /></View><View style={styles.notice}><Text style={styles.noticeText}>{pendingCount ? `${pendingCount} टोकन sync हुन बाँकी` : 'सबै टोकन सुरक्षित छन्'}</Text></View>{services.map((service) => <Pressable key={service.id || service._id} style={styles.serviceButton} onPress={() => onSelect({ ...service, id: service.id || service._id })}><View><Text style={styles.serviceName}>{service.name}</Text><Text style={styles.serviceMeta}>{service.options?.length ? `${service.options.length} विकल्प` : service.price == null ? 'रकम प्रविष्ट गर्नुहोस्' : `रु ${service.price}`}</Text></View><Text style={styles.arrow}>›</Text></Pressable>)}<View style={styles.bottomActions}><SecondaryButton title="इतिहास" onPress={onHistory} /></View></ScrollView></SafeAreaView>;
+function ServiceScreen({ services, settings, pendingCount, online, onSelect, onHistory, onLogout }) {
+  return (
+    <SafeAreaView style={styles.safe}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.header}>
+          <View style={{ flex: 1, paddingRight: 10 }}>
+            <Text style={styles.eyebrow}>{settings?.device_name ? `${settings.device_name} (${settings.device_id})` : 'सेवा छनोट'}</Text>
+            <Text style={styles.title}>आजको संकलन</Text>
+            {settings?.user_name ? (
+              <View style={styles.operatorRow}>
+                <Text style={styles.operatorText}>👤 {settings.user_name}</Text>
+              </View>
+            ) : null}
+          </View>
+          <View style={{ alignItems: 'flex-end', gap: 8 }}>
+            <StatusPill online={online} />
+            <Pressable onPress={onLogout} style={styles.logoutBtn}>
+              <Text style={styles.logoutBtnText}>लगआउट ⎋</Text>
+            </Pressable>
+          </View>
+        </View>
+
+        <View style={styles.notice}>
+          <Text style={styles.noticeText}>{pendingCount ? `${pendingCount} टोकन sync हुन बाँकी` : 'सबै टोकन सुरक्षित छन्'}</Text>
+        </View>
+
+        {services.map((service) => (
+          <Pressable key={service.id || service._id} style={styles.serviceButton} onPress={() => onSelect({ ...service, id: service.id || service._id })}>
+            <View>
+              <Text style={styles.serviceName}>{service.name}</Text>
+              <Text style={styles.serviceMeta}>{service.options?.length ? `${service.options.length} विकल्प` : service.price == null ? 'रकम प्रविष्ट गर्नुहोस्' : `रु ${service.price}`}</Text>
+            </View>
+            <Text style={styles.arrow}>›</Text>
+          </Pressable>
+        ))}
+
+        <View style={styles.bottomActions}>
+          <SecondaryButton title="इतिहास" onPress={onHistory} />
+          <Pressable onPress={onLogout} style={styles.logoutBottomBtn}>
+            <Text style={styles.logoutBottomText}>लगआउट</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 function DetailScreen({ service, onBack, onSelect }) { return <SafeAreaView style={styles.safe}><ScrollView contentContainerStyle={styles.content}><BackButton onPress={onBack} /><Text style={styles.title}>{service.name}</Text><Text style={styles.muted}>विकल्प छनोट गर्नुहोस्</Text>{service.options?.length ? service.options.map((option) => <Pressable key={option.id || option._id || option.name} style={styles.optionButton} onPress={() => onSelect(option)}><Text style={styles.serviceName}>{option.name}</Text><Text style={styles.amount}>रु {option.price}</Text></Pressable>) : <PrimaryButton title={service.price == null ? 'रकम राख्नुहोस्' : `रु ${service.price} जारी राख्नुहोस्`} onPress={() => onSelect(service.price == null ? null : { name: '', price: service.price })} />}</ScrollView></SafeAreaView>; }
@@ -303,6 +365,12 @@ const styles = StyleSheet.create({
   successAmount: { color: '#182321', fontSize: 22, fontWeight: '800', marginBottom: 10 },
   historyRow: { backgroundColor: '#fff', borderBottomColor: '#e0e5df', borderBottomWidth: 1, paddingVertical: 16, flexDirection: 'row', justifyContent: 'space-between' },
   synced: { color: '#39805d', fontSize: 12, marginTop: 4 }, pending: { color: '#aa6b2f', fontSize: 12, marginTop: 4 },
+  operatorRow: { marginTop: 3 },
+  operatorText: { color: '#0b6b62', fontSize: 13, fontWeight: '700' },
+  logoutBtn: { backgroundColor: '#fee2e2', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6 },
+  logoutBtnText: { color: '#b91c1c', fontSize: 12, fontWeight: '700' },
+  logoutBottomBtn: { borderColor: '#fca5a5', borderWidth: 1, backgroundColor: '#fff', borderRadius: 10, minHeight: 52, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, marginTop: 8, flex: 1 },
+  logoutBottomText: { color: '#dc2626', fontSize: 16, fontWeight: '700' },
 });
 
 const histStyles = StyleSheet.create({
