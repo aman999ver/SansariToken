@@ -636,7 +636,7 @@ function Counters({ devices, t, deviceId, setDeviceId, deviceName, setDeviceName
   );
 }
 
-function Users({ users, t, username, setUsername, displayName, setDisplayName, password, setPassword, createUser, editingUser, setEditingUser, updateUser, loading, message }) {
+function Users({ users, t, username, setUsername, displayName, setDisplayName, password, setPassword, createUser, editingUser, setEditingUser, updateUser, deleteUser, loading, message }) {
   return (
     <div className="pageContent">
       <div className="pageIntro">
