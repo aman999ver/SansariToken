@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Samsari Mai Token",
-    "slug": "samsari-mai-token",
+    "name": "Sansari Mai Token",
+    "slug": "sansari-mai-token",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,7 +10,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.samsarimaitoken.mobile",
+      "package": "com.sansarimaitoken.mobile",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",

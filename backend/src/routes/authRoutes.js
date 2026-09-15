@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { login, changePassword, userLogin, createUser, listUsers } = require('../controllers/authController');
+const { login, changePassword, userLogin, createUser, listUsers, updateUser } = require('../controllers/authController');
 const { requireAuth, requireAdmin } = require('../middleware/auth');
 const asyncHandler = require('../utils/asyncHandler');
 router.post('/login', asyncHandler(login));
@@ -7,4 +7,5 @@ router.post('/user-login', asyncHandler(userLogin));
 router.post('/change-password', requireAuth, asyncHandler(changePassword));
 router.get('/users', requireAuth, requireAdmin, asyncHandler(listUsers));
 router.post('/users', requireAuth, requireAdmin, asyncHandler(createUser));
+router.put('/users/:id', requireAuth, requireAdmin, asyncHandler(updateUser));
 module.exports = router;

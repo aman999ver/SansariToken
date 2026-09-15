@@ -43,4 +43,23 @@ async function listUsers(req, res) {
   return sendSuccess(res, { users: await User.find().select('username displayName active createdAt').sort({ displayName: 1 }).lean() });
 }
 
-module.exports = { login, changePassword, userLogin, createUser, listUsers };
+async function updateUser(req, res) {
+  const { displayName, password, active } = req.body || {};
+  const user = await User.findById(req.params.id);
+  if (!user) return sendError(res, 'User not found', 'NOT_FOUND', 404);
+  if (displayName !== undefined) {
+    if (!displayName.trim()) return sendError(res, 'Display name cannot be empty', 'VALIDATION_ERROR', 400);
+    user.displayName = displayName.trim();
+  }
+  if (password !== undefined && password !== '') {
+    if (password.length < 8) return sendError(res, 'Password must be at least 8 characters', 'VALIDATION_ERROR', 400);
+    user.passwordHash = await bcrypt.hash(password, 12);
+  }
+  if (active !== undefined) {
+    user.active = Boolean(active);
+  }
+  await user.save();
+  return sendSuccess(res, { user: { id: user.id, username: user.username, displayName: user.displayName, active: user.active } });
+}
+
+module.exports = { login, changePassword, userLogin, createUser, listUsers, updateUser };
