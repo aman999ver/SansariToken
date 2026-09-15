@@ -19,7 +19,9 @@ export async function initializeDatabase() {
       local_id TEXT PRIMARY KEY NOT NULL,
       device_id TEXT NOT NULL,
       token_number TEXT NOT NULL UNIQUE,
+      receipt_number TEXT NOT NULL DEFAULT '',
       temple_name TEXT NOT NULL DEFAULT '',
+      user_name TEXT NOT NULL DEFAULT '',
       nepali_date TEXT NOT NULL DEFAULT '',
       token_time TEXT NOT NULL DEFAULT '',
       service_id TEXT NOT NULL,
@@ -37,6 +39,8 @@ export async function initializeDatabase() {
     CREATE INDEX IF NOT EXISTS transactions_created_at_idx ON transactions(created_at DESC);
   `);
   try { await database.execAsync("ALTER TABLE transactions ADD COLUMN temple_name TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
+  try { await database.execAsync("ALTER TABLE transactions ADD COLUMN receipt_number TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
+  try { await database.execAsync("ALTER TABLE transactions ADD COLUMN user_name TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
   try { await database.execAsync("ALTER TABLE transactions ADD COLUMN nepali_date TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
   try { await database.execAsync("ALTER TABLE transactions ADD COLUMN token_time TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
   return database;
@@ -57,12 +61,14 @@ export async function createTransaction(transaction) {
   const database = await getDatabase();
   await database.runAsync(
     `INSERT INTO transactions
-      (local_id, device_id, token_number, temple_name, nepali_date, token_time, service_id, service_name, item_name, amount, payment_method, created_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      (local_id, device_id, token_number, receipt_number, temple_name, user_name, nepali_date, token_time, service_id, service_name, item_name, amount, payment_method, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     transaction.localId,
     transaction.deviceId,
     transaction.tokenNumber,
+    transaction.receiptNumber,
     transaction.templeName,
+    transaction.userName,
     transaction.nepaliDate,
     transaction.tokenTime,
     transaction.serviceId,

@@ -25,6 +25,9 @@ All successful responses contain `success: true`; errors contain `success: false
 | Method | Path | Auth | Purpose |
 | --- | --- | --- | --- |
 | POST | `/api/auth/login` | No | Admin login and JWT issuance |
+| POST | `/api/auth/user-login` | No | POS user login |
+| GET | `/api/auth/users` | JWT | List POS users |
+| POST | `/api/auth/users` | JWT | Create a POS user |
 | POST | `/api/auth/change-password` | JWT | Change the logged-in admin password |
 | POST | `/api/devices/register` | No | Register or reactivate a POS device |
 | GET | `/api/devices/available` | No | List active devices for first-time POS assignment |

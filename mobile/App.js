@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+  import { useEffect, useState } from 'react';
 import * as Crypto from 'expo-crypto';
 import NetInfo from '@react-native-community/netinfo';
 import { StatusBar } from 'expo-status-bar';
@@ -6,15 +6,15 @@ import { ActivityIndicator, Alert, Pressable, SafeAreaView, ScrollView, StyleShe
 import { createTransaction, countPendingTransactions, getSetting, initializeDatabase, listTransactions, setSetting } from './src/database/database';
 import { defaultServices } from './src/constants/defaultServices';
 import { API_BASE_URL, TEMPLE_NAME } from './src/constants/appConfig';
-import { fetchAvailableDevices, fetchServices } from './src/services/api';
-import { getDeviceSettings, saveDeviceSettings } from './src/services/deviceSettings';
+import { fetchAvailableDevices, fetchServices, loginUser } from './src/services/api';
+import { getDeviceSettings, saveDeviceSettings, saveUserSettings } from './src/services/deviceSettings';
 import { printerService } from './src/services/printer/mockPrinterService';
 import { syncPendingTransactions } from './src/services/syncService';
 import { getReceiptDetails } from './src/utils/receipt';
 
 export default function App() {
   const [ready, setReady] = useState(false);
-  const [settings, setSettings] = useState({ device_id: '', device_name: '' });
+  const [settings, setSettings] = useState({ device_id: '', device_name: '', username: '', user_name: '' });
   const [services, setServices] = useState(defaultServices);
   const [screen, setScreen] = useState('setup');
   const [selectedService, setSelectedService] = useState(null);
@@ -31,7 +31,9 @@ export default function App() {
       const saved = await getDeviceSettings();
       setSettings(saved);
       setPendingCount(await countPendingTransactions());
-      if (saved.device_id) setScreen('services');
+      if (saved.user_name && saved.device_id) setScreen('services');
+      else if (saved.user_name) setScreen('setup');
+      else setScreen('login');
       setReady(true);
     })().catch(() => Alert.alert('त्रुटि', 'स्थानीय डाटाबेस सुरु गर्न सकिएन।'));
   }, []);
@@ -55,7 +57,8 @@ export default function App() {
   }, [ready, screen, settings]);
 
   if (!ready) return <Centered><ActivityIndicator size="large" color="#0b6b62" /></Centered>;
-  if (screen === 'setup') return <SetupScreen settings={settings} onSave={async (next) => { await saveDeviceSettings(next); setSettings({ device_id: next.deviceId, device_name: next.deviceName }); setScreen('services'); }} />;
+  if (screen === 'login') return <LoginScreen onLogin={async (username, password) => { const user = await loginUser(API_BASE_URL, username, password); await saveUserSettings({ username: user.username, displayName: user.displayName }); setSettings((current) => ({ ...current, username: user.username, user_name: user.displayName })); setScreen('setup'); }} />;
+  if (screen === 'setup') return <SetupScreen settings={settings} onSave={async (next) => { await saveDeviceSettings(next); setSettings((current) => ({ ...current, device_id: next.deviceId, device_name: next.deviceName })); setScreen('services'); }} />;
   if (screen === 'detail') return <DetailScreen service={selectedService} onBack={() => setScreen('services')} onSelect={(option) => { setSelectedOption(option); setAmount(String(option?.price ?? '')); setScreen('confirm'); }} />;
   if (screen === 'confirm') return <ConfirmScreen service={selectedService} option={selectedOption} amount={amount} setAmount={setAmount} onBack={() => setScreen('detail')} onConfirm={() => generateToken()} />;
   if (screen === 'success') return <SuccessScreen transaction={lastTransaction} onHome={() => setScreen('services')} onHistory={openHistory} />;
@@ -72,7 +75,8 @@ export default function App() {
     const transaction = {
       localId: Crypto.randomUUID(), deviceId: settings.device_id, templeName: TEMPLE_NAME,
       nepaliDate: receiptDetails.nepaliDate, tokenTime: receiptDetails.time,
-      tokenNumber: `${settings.device_id}-${String(nextSequence).padStart(6, '0')}`,
+      tokenNumber: `${settings.device_id}-${String(nextSequence).padStart(6, '0')}`, receiptNumber: `${settings.device_id}-${String(nextSequence).padStart(6, '0')}`,
+      userName: settings.user_name,
       serviceId: selectedService.id, serviceName: selectedService.name,
       itemName: selectedOption?.name || '', amount: numericAmount, paymentMethod: 'cash', createdAt: now.toISOString()
     };
@@ -93,6 +97,14 @@ export default function App() {
 
 function Centered({ children }) { return <View style={styles.centered}>{children}</View>; }
 
+function LoginScreen({ onLogin }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const submit = async () => { setLoading(true); try { await onLogin(username, password); } catch (error) { Alert.alert('प्रवेश असफल भयो', error.message || 'प्रयोगकर्ता नाम वा पासवर्ड जाँच गर्नुहोस्।'); } finally { setLoading(false); } };
+  return <SafeAreaView style={styles.safe}><View style={styles.setup}><Text style={styles.brand}>{TEMPLE_NAME}</Text><Text style={styles.title}>प्रयोगकर्ता प्रवेश</Text><Text style={styles.muted}>टोकन बनाउन आफ्नो प्रयोगकर्ता खाताबाट प्रवेश गर्नुहोस्।</Text><Field label="प्रयोगकर्ता नाम" value={username} onChangeText={setUsername} autoCapitalize="none" /><Field label="पासवर्ड" value={password} onChangeText={setPassword} secureTextEntry /><PrimaryButton title={loading ? 'प्रवेश हुँदैछ...' : 'प्रवेश गर्नुहोस्'} onPress={submit} /></View></SafeAreaView>;
+}
+
 function SetupScreen({ settings, onSave }) {
   const [devices, setDevices] = useState([]);
   const [selectedId, setSelectedId] = useState(settings.device_id || '');
@@ -110,7 +122,7 @@ function DetailScreen({ service, onBack, onSelect }) { return <SafeAreaView styl
 
 function ConfirmScreen({ service, option, amount, setAmount, onBack, onConfirm }) { return <SafeAreaView style={styles.safe}><ScrollView contentContainerStyle={styles.content}><BackButton onPress={onBack} /><Text style={styles.eyebrow}>पुष्टि गर्नुहोस्</Text><Text style={styles.title}>टोकन तयार छ</Text><View style={styles.summary}><Text style={styles.muted}>सेवा</Text><Text style={styles.summaryValue}>{service.name}</Text>{option?.name ? <><Text style={styles.muted}>वस्तु</Text><Text style={styles.summaryValue}>{option.name}</Text></> : null}<Text style={styles.muted}>रकम (रु)</Text><TextInput style={styles.amountInput} value={amount} onChangeText={setAmount} keyboardType="decimal-pad" /></View><PrimaryButton title="TOKEN GENERATE गर्नुहोस्" onPress={onConfirm} /><SecondaryButton title="रद्द गर्नुहोस्" onPress={onBack} /></ScrollView></SafeAreaView>; }
 
-function SuccessScreen({ transaction, onHome, onHistory }) { return <SafeAreaView style={styles.safe}><View style={styles.success}><Text style={styles.successMark}>✓</Text><Text style={styles.title}>टोकन तयार भयो</Text><Text style={styles.token}>{transaction.tokenNumber}</Text><Text style={styles.successAmount}>रु {transaction.amount}</Text><Text style={styles.muted}>प्रिन्ट सेवामा पठाइयो</Text><PrimaryButton title="नयाँ टोकन" onPress={onHome} /><SecondaryButton title="इतिहास हेर्नुहोस्" onPress={onHistory} /></View></SafeAreaView>; }
+function SuccessScreen({ transaction, onHome }) { return <SafeAreaView style={styles.safe}><View style={styles.success}><Text style={styles.successMark}>✓</Text><Text style={styles.title}>रसिद तयार भयो</Text><Text style={styles.token}>{transaction.receiptNumber}</Text><Text style={styles.successAmount}>रु {transaction.amount}</Text><Text style={styles.muted}>प्रिन्ट सम्पन्न</Text><PrimaryButton title="नयाँ रसिद" onPress={onHome} /></View></SafeAreaView>; }
 
 function HistoryScreen({ history, pendingCount, onBack }) { return <SafeAreaView style={styles.safe}><ScrollView contentContainerStyle={styles.content}><BackButton onPress={onBack} /><Text style={styles.title}>टोकन इतिहास</Text><Text style={styles.muted}>{pendingCount} sync हुन बाँकी</Text>{history.map((item) => <View style={styles.historyRow} key={item.local_id}><View><Text style={styles.serviceName}>{item.token_number}</Text><Text style={styles.muted}>{item.service_name} {item.item_name ? `· ${item.item_name}` : ''}</Text></View><View><Text style={styles.amount}>रु {item.amount}</Text><Text style={item.sync_status === 'synced' ? styles.synced : styles.pending}>{item.sync_status}</Text></View></View>)}</ScrollView></SafeAreaView>; }
 

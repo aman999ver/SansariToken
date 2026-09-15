@@ -18,6 +18,11 @@ export async function fetchAvailableDevices(apiUrl) {
   return response.devices || [];
 }
 
+export async function loginUser(apiUrl, username, password) {
+  const response = await request(`${apiUrl}/api/auth/user-login`, { method: 'POST', body: JSON.stringify({ username, password }) });
+  return response.user;
+}
+
 export async function fetchServices(apiUrl) {
   const response = await request(`${apiUrl}/api/services`);
   return response.services || [];
@@ -32,7 +37,9 @@ function toApiTransaction(transaction) {
     localId: transaction.local_id,
     deviceId: transaction.device_id,
     tokenNumber: transaction.token_number,
+    receiptNumber: transaction.receipt_number,
     templeName: transaction.temple_name,
+    userName: transaction.user_name,
     nepaliDate: transaction.nepali_date,
     tokenTime: transaction.token_time,
     serviceId: transaction.service_id,

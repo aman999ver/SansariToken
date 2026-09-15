@@ -1,7 +1,10 @@
 const router = require('express').Router();
-const { login, changePassword } = require('../controllers/authController');
-const { requireAuth } = require('../middleware/auth');
+const { login, changePassword, userLogin, createUser, listUsers } = require('../controllers/authController');
+const { requireAuth, requireAdmin } = require('../middleware/auth');
 const asyncHandler = require('../utils/asyncHandler');
 router.post('/login', asyncHandler(login));
+router.post('/user-login', asyncHandler(userLogin));
 router.post('/change-password', requireAuth, asyncHandler(changePassword));
+router.get('/users', requireAuth, requireAdmin, asyncHandler(listUsers));
+router.post('/users', requireAuth, requireAdmin, asyncHandler(createUser));
 module.exports = router;

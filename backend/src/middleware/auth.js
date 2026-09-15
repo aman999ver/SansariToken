@@ -13,4 +13,9 @@ function requireAuth(req, res, next) {
   }
 }
 
-module.exports = { requireAuth };
+function requireAdmin(req, res, next) {
+  if (req.admin?.role !== 'admin') return sendError(res, 'Administrator access required', 'ADMIN_REQUIRED', 403);
+  next();
+}
+
+module.exports = { requireAuth, requireAdmin };
