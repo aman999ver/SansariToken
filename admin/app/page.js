@@ -105,9 +105,11 @@ export default function Home() {
 
   async function loadServices() {
     try {
-      const response = await fetch(`${API_URL}/api/services`);
+      const response = await fetch(`${API_URL}/api/services`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      });
       const body = await response.json();
-      if (response.ok) setServices(body.services || []);
+      if (response.ok && body.services) setServices(body.services);
     } catch {}
   }
 
@@ -829,6 +831,31 @@ function Transactions({
   const totalCollection = summary?.totals?.collection ?? 0;
   const serviceList = summary?.services ?? [];
 
+  const serviceOptions = Array.from(
+    new Set([
+      ...(services || []).map((s) => s.name),
+      ...(summary?.services || []).map((s) => s.serviceName),
+      ...(rows || []).map((r) => r.serviceName),
+      'बलि पूजा',
+      'बजार शुल्क',
+      'गाडी पूजा',
+      'टहरा शुल्क',
+      'अन्य'
+    ].filter(Boolean))
+  );
+
+  const operatorOptions = (users || []).map((u) => ({
+    value: u.username,
+    label: `${u.displayName} (@${u.username})`
+  }));
+  const knownUserNames = new Set((users || []).flatMap((u) => [u.username?.toLowerCase(), u.displayName?.toLowerCase()]));
+  (rows || []).forEach((r) => {
+    if (r.userName && !knownUserNames.has(r.userName.toLowerCase())) {
+      operatorOptions.push({ value: r.userName, label: r.userName });
+      knownUserNames.add(r.userName.toLowerCase());
+    }
+  });
+
   return (
     <div className="pageContent">
       <div className="pageIntro">
@@ -845,7 +872,8 @@ function Transactions({
             <input
               type="text"
               value={date}
-              placeholder="e.g. 2081-05-30 or 2026-09-15"
+              placeholder="e.g. 2083-05-30 or २०८३/०५/३०"
+              title="Enter Nepali date (e.g. 2083-05-30 or २०८३/०५/३०)"
               onChange={(event) => setDate(event.target.value)}
             />
           </label>
@@ -866,9 +894,9 @@ function Transactions({
             {t.filterUser}
             <select value={userName} onChange={(event) => setUserName(event.target.value)}>
               <option value="ALL">{t.allUsers}</option>
-              {users.map((u) => (
-                <option key={u.id || u._id} value={u.username}>
-                  {u.displayName} (@{u.username})
+              {operatorOptions.map((op) => (
+                <option key={op.value} value={op.value}>
+                  {op.label}
                 </option>
               ))}
             </select>
@@ -878,9 +906,9 @@ function Transactions({
             {t.filterService}
             <select value={serviceName} onChange={(event) => setServiceName(event.target.value)}>
               <option value="ALL">{t.allServices}</option>
-              {services.map((s) => (
-                <option key={s.id || s._id} value={s.name}>
-                  {s.name}
+              {serviceOptions.map((name) => (
+                <option key={name} value={name}>
+                  {name}
                 </option>
               ))}
             </select>
