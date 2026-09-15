@@ -62,4 +62,10 @@ async function updateUser(req, res) {
   return sendSuccess(res, { user: { id: user.id, username: user.username, displayName: user.displayName, active: user.active } });
 }
 
-module.exports = { login, changePassword, userLogin, createUser, listUsers, updateUser };
+async function deleteUser(req, res) {
+  const user = await User.findByIdAndDelete(req.params.id);
+  if (!user) return sendError(res, 'User not found', 'NOT_FOUND', 404);
+  return sendSuccess(res, { message: 'User deleted successfully' });
+}
+
+module.exports = { login, changePassword, userLogin, createUser, listUsers, updateUser, deleteUser };

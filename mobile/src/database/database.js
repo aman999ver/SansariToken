@@ -120,3 +120,40 @@ export async function countPendingTransactions() {
   const row = await database.getFirstAsync("SELECT COUNT(*) AS count FROM transactions WHERE sync_status IN ('pending', 'failed', 'syncing')");
   return row?.count || 0;
 }
+
+/**
+ * Returns a page of transactions (newest first) with optional sync_status filter.
+ * @param {object} opts - { page: number, pageSize: number, filter: 'all'|'synced'|'pending'|'failed' }
+ */
+export async function listTransactionsPaginated({ page = 1, pageSize = 20, filter = 'all' } = {}) {
+  const database = await getDatabase();
+  const offset = (page - 1) * pageSize;
+
+  let where = '';
+  if (filter === 'synced') where = "WHERE sync_status = 'synced'";
+  else if (filter === 'pending') where = "WHERE sync_status IN ('pending', 'syncing')";
+  else if (filter === 'failed') where = "WHERE sync_status = 'failed'";
+
+  const rows = await database.getAllAsync(
+    `SELECT * FROM transactions ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`,
+    pageSize,
+    offset
+  );
+  const countRow = await database.getFirstAsync(
+    `SELECT COUNT(*) AS total FROM transactions ${where}`
+  );
+  return { rows, total: countRow?.total || 0 };
+}
+
+/**
+ * Deletes synced transactions older than `days` days from the local SQLite store.
+ * MongoDB retains all records; this only trims the on-device cache.
+ */
+export async function pruneOldSyncedTransactions(days = 2) {
+  const database = await getDatabase();
+  const cutoff = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  await database.runAsync(
+    "DELETE FROM transactions WHERE sync_status = 'synced' AND created_at < ?",
+    cutoff
+  );
+}

@@ -40,4 +40,10 @@ async function update(req, res) {
   return sendSuccess(res, { device });
 }
 
-module.exports = { register, available, create, list, getOne, update };
+async function remove(req, res) {
+  const device = await Device.findOneAndDelete({ deviceId: req.params.deviceId });
+  if (!device) return res.status(404).json({ success: false, message: 'Device not found', errorCode: 'NOT_FOUND' });
+  return sendSuccess(res, { message: 'Device deleted successfully' });
+}
+
+module.exports = { register, available, create, list, getOne, update, remove };

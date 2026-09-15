@@ -1,5 +1,5 @@
 import NetInfo from '@react-native-community/netinfo';
-import { countPendingTransactions, listPendingTransactions, markFailed, markSynced, markSyncing } from '../database/database';
+import { countPendingTransactions, listPendingTransactions, markFailed, markSynced, markSyncing, pruneOldSyncedTransactions } from '../database/database';
 import { uploadTransactions } from './api';
 
 let syncing = false;
@@ -18,6 +18,8 @@ export async function syncPendingTransactions({ apiUrl, deviceId }) {
       const result = await uploadTransactions(apiUrl, deviceId, transactions);
       const accepted = [...(result.synced || []), ...(result.duplicates || [])];
       await markSynced(accepted);
+      // Prune synced transactions older than 2 days from local SQLite (MongoDB keeps all)
+      await pruneOldSyncedTransactions(2);
       const failed = (result.failed || []).map((item) => item.localId).filter(Boolean);
       await markFailed(failed);
       return { synced: accepted.length, pending: await countPendingTransactions() };
@@ -28,4 +30,4 @@ export async function syncPendingTransactions({ apiUrl, deviceId }) {
   } finally {
     syncing = false;
   }
-}
+}

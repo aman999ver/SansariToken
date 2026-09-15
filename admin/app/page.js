@@ -7,13 +7,13 @@ const TEMPLE_NAME = 'श्री संसारी माई मन्दि�
 
 const text = {
   en: {
-    users: 'Users', userManagement: 'User management', userSub: 'Create and manage accounts for counter operators.', displayName: 'Display name', createUser: 'Create user', editUser: 'Edit user', updateUser: 'Update user', cancel: 'Cancel', status: 'Status', userList: 'Operator accounts', noUsers: 'No users created yet.', userUpdated: 'User updated successfully.', edit: 'Edit', active: 'Active', inactive: 'Inactive',
-    admin: 'ADMIN CONSOLE', loginSub: 'Manage counters, services, and collections', username: 'Username', password: 'Password', optionalPassword: 'New password (leave blank to keep current)', login: 'Sign in', signingIn: 'Signing in...', dashboard: 'Dashboard', counters: 'Counters', transactions: 'Transactions', security: 'Security', logout: 'Sign out', overview: 'Overview', overviewSub: 'A clear view of your collection operation.', activeCounters: 'Active counters', counterManagement: 'Counter management', counterSub: 'Add the counters that POS devices can select during first-time setup.', addCounter: 'Add counter', deviceId: 'Device ID', counterName: 'Counter name', saveCounter: 'Save counter', activeCounterList: 'Active counter list', refresh: 'Refresh', noCounters: 'No counters have been added yet.', passwordChange: 'Change password', passwordSub: 'Keep your administrator account protected.', currentPassword: 'Current password', newPassword: 'New password', confirmPassword: 'Confirm new password', savePassword: 'Update password', language: 'Language', nepali: 'नेपाली', english: 'English', added: 'Saved successfully.', changed: 'Password changed successfully.', mismatch: 'New passwords do not match.', loginFailed: 'Login failed.', error: 'Something went wrong.', filterDate: 'Filter date (Nepali / ISO)', clear: 'Clear', token: 'Receipt #', date: 'Nepali date', time: 'Time', service: 'Service', amount: 'Amount', noTransactions: 'No transactions found.',
+    users: 'Users', userManagement: 'User management', userSub: 'Create and manage accounts for counter operators.', displayName: 'Display name', createUser: 'Create user', editUser: 'Edit user', updateUser: 'Update user', cancel: 'Cancel', status: 'Status', userList: 'Operator accounts', noUsers: 'No users created yet.', userUpdated: 'User updated successfully.', userDeleted: 'User deleted.', edit: 'Edit', delete: 'Delete', active: 'Active', inactive: 'Inactive', confirmDeleteUser: 'Are you sure you want to delete this user?', confirmDeleteCounter: 'Are you sure you want to delete this counter?',
+    admin: 'ADMIN CONSOLE', loginSub: 'Manage counters, services, and collections', username: 'Username', password: 'Password', optionalPassword: 'New password (leave blank to keep current)', login: 'Sign in', signingIn: 'Signing in...', dashboard: 'Dashboard', counters: 'Counters', transactions: 'Transactions', security: 'Security', logout: 'Sign out', overview: 'Overview', overviewSub: 'A clear view of your collection operation.', activeCounters: 'Active counters', counterManagement: 'Counter management', counterSub: 'Add the counters that POS devices can select during first-time setup.', addCounter: 'Add counter', editCounter: 'Edit counter', deviceId: 'Device ID', counterName: 'Counter name', saveCounter: 'Save counter', updateCounter: 'Update counter', activeCounterList: 'Active counter list', refresh: 'Refresh', noCounters: 'No counters have been added yet.', counterDeleted: 'Counter deleted.', counterUpdated: 'Counter updated.', passwordChange: 'Change password', passwordSub: 'Keep your administrator account protected.', currentPassword: 'Current password', newPassword: 'New password', confirmPassword: 'Confirm new password', savePassword: 'Update password', language: 'Language', nepali: 'नेपाली', english: 'English', added: 'Saved successfully.', changed: 'Password changed successfully.', mismatch: 'New passwords do not match.', loginFailed: 'Login failed.', error: 'Something went wrong.', filterDate: 'Filter date (Nepali / ISO)', clear: 'Clear', token: 'Receipt #', date: 'Nepali date', time: 'Time', service: 'Service', amount: 'Amount', noTransactions: 'No transactions found.',
     allCounters: 'All counters', allUsers: 'All operators', allServices: 'All services', filterCounter: 'Counter', filterUser: 'Operator', filterService: 'Service', applyFilter: 'Filter', pagination: 'Pagination', page: 'Page', of: 'of', prev: 'Previous', next: 'Next', perPage: 'Per page', totalReceipts: 'Total receipts', totalCollection: 'Total collection', serviceBreakdown: 'Service-wise collection breakdown', receiptsGenerated: 'Receipts count', collectionAmount: 'Total amount', operator: 'Operator', paymentMethod: 'Payment', share: 'Share'
   },
   ne: {
-    users: 'प्रयोगकर्ता', userManagement: 'प्रयोगकर्ता व्यवस्थापन', userSub: 'काउन्टर सञ्चालकका खाताहरू सिर्जना र व्यवस्थापन गर्नुहोस्।', displayName: 'देखिने नाम', createUser: 'प्रयोगकर्ता बनाउनुहोस्', editUser: 'प्रयोगकर्ता सम्पादन', updateUser: 'विवरण अद्यावधिक गर्नुहोस्', cancel: 'रद्द गर्नुहोस्', status: 'स्थिति', userList: 'सञ्चालक खाताहरू', noUsers: 'अहिलेसम्म प्रयोगकर्ता बनेका छैनन्।', userUpdated: 'प्रयोगकर्ता विवरण अद्यावधिक भयो।', edit: 'सम्पादन', active: 'सक्रिय', inactive: 'निष्क्रिय',
-    admin: 'प्रशासन कक्ष', loginSub: 'काउन्टर, सेवा र संकलन व्यवस्थापन', username: 'प्रयोगकर्ता नाम', password: 'पासवर्ड', optionalPassword: 'नयाँ पासवर्ड (परिवर्तन नगर्ने भए खाली छोड्नुहोस्)', login: 'प्रवेश गर्नुहोस्', signingIn: 'प्रवेश हुँदैछ...', dashboard: 'ड्यासबोर्ड', counters: 'काउन्टर', transactions: 'लेनदेन', security: 'सुरक्षा', logout: 'बाहिर निस्कनुहोस्', overview: 'अवलोकन', overviewSub: 'तपाईंको संकलन सञ्चालनको स्पष्ट विवरण।', activeCounters: 'सक्रिय काउन्टर', counterManagement: 'काउन्टर व्यवस्थापन', counterSub: 'POS उपकरणले पहिलो सेटअपमा चयन गर्ने काउन्टर थप्नुहोस्।', addCounter: 'काउन्टर थप्नुहोस्', deviceId: 'उपकरण ID', counterName: 'काउन्टरको नाम', saveCounter: 'काउन्टर सुरक्षित गर्नुहोस्', activeCounterList: 'सक्रिय काउन्टर सूची', refresh: 'रिफ्रेस', noCounters: 'अहिलेसम्म कुनै काउन्टर थपिएको छैन।', passwordChange: 'पासवर्ड परिवर्तन', passwordSub: 'तपाईंको प्रशासनिक खाता सुरक्षित राख्नुहोस्।', currentPassword: 'हालको पासवर्ड', newPassword: 'नयाँ पासवर्ड', confirmPassword: 'नयाँ पासवर्ड फेरि', savePassword: 'पासवर्ड सुरक्षित गर्नुहोस्', language: 'भाषा', nepali: 'नेपाली', english: 'English', added: 'सफलतापूर्वक सुरक्षित भयो।', changed: 'पासवर्ड परिवर्तन भयो।', mismatch: 'नयाँ पासवर्ड मिलेन।', loginFailed: 'प्रवेश असफल भयो।', error: 'केही समस्या भयो।', filterDate: 'मिति छान्नुहोस् (नेपाली / अंग्रेजी)', clear: 'हटाउनुहोस्', token: 'रसिद नं.', date: 'नेपाली मिति', time: 'समय', service: 'सेवा', amount: 'रकम', noTransactions: 'कुनै लेनदेन भेटिएन।',
+    users: 'प्रयोगकर्ता', userManagement: 'प्रयोगकर्ता व्यवस्थापन', userSub: 'काउन्टर सञ्चालकका खाताहरू सिर्जना र व्यवस्थापन गर्नुहोस्।', displayName: 'देखिने नाम', createUser: 'प्रयोगकर्ता बनाउनुहोस्', editUser: 'प्रयोगकर्ता सम्पादन', updateUser: 'विवरण अद्यावधिक गर्नुहोस्', cancel: 'रद्द गर्नुहोस्', status: 'स्थिति', userList: 'सञ्चालक खाताहरू', noUsers: 'अहिलेसम्म प्रयोगकर्ता बनेका छैनन्।', userUpdated: 'प्रयोगकर्ता विवरण अद्यावधिक भयो।', userDeleted: 'प्रयोगकर्ता हटाइयो।', edit: 'सम्पादन', delete: 'हटाउनुहोस्', active: 'सक्रिय', inactive: 'निष्क्रिय', confirmDeleteUser: 'यो प्रयोगकर्ता हटाउने हो?', confirmDeleteCounter: 'यो काउन्टर हटाउने हो?',
+    admin: 'प्रशासन कक्ष', loginSub: 'काउन्टर, सेवा र संकलन व्यवस्थापन', username: 'प्रयोगकर्ता नाम', password: 'पासवर्ड', optionalPassword: 'नयाँ पासवर्ड (परिवर्तन नगर्ने भए खाली छोड्नुहोस्)', login: 'प्रवेश गर्नुहोस्', signingIn: 'प्रवेश हुँदैछ...', dashboard: 'ड्यासबोर्ड', counters: 'काउन्टर', transactions: 'लेनदेन', security: 'सुरक्षा', logout: 'बाहिर निस्कनुहोस्', overview: 'अवलोकन', overviewSub: 'तपाईंको संकलन सञ्चालनको स्पष्ट विवरण।', activeCounters: 'सक्रिय काउन्टर', counterManagement: 'काउन्टर व्यवस्थापन', counterSub: 'POS उपकरणले पहिलो सेटअपमा चयन गर्ने काउन्टर थप्नुहोस्।', addCounter: 'काउन्टर थप्नुहोस्', editCounter: 'काउन्टर सम्पादन', deviceId: 'उपकरण ID', counterName: 'काउन्टरको नाम', saveCounter: 'काउन्टर सुरक्षित गर्नुहोस्', updateCounter: 'काउन्टर अद्यावधिक गर्नुहोस्', activeCounterList: 'सक्रिय काउन्टर सूची', refresh: 'रिफ्रेस', noCounters: 'अहिलेसम्म कुनै काउन्टर थपिएको छैन।', counterDeleted: 'काउन्टर हटाइयो।', counterUpdated: 'काउन्टर अद्यावधिक भयो।', passwordChange: 'पासवर्ड परिवर्तन', passwordSub: 'तपाईंको प्रशासनिक खाता सुरक्षित राख्नुहोस्।', currentPassword: 'हालको पासवर्ड', newPassword: 'नयाँ पासवर्ड', confirmPassword: 'नयाँ पासवर्ड फेरि', savePassword: 'पासवर्ड सुरक्षित गर्नुहोस्', language: 'भाषा', nepali: 'नेपाली', english: 'English', added: 'सफलतापूर्वक सुरक्षित भयो।', changed: 'पासवर्ड परिवर्तन भयो।', mismatch: 'नयाँ पासवर्ड मिलेन।', loginFailed: 'प्रवेश असफल भयो।', error: 'केही समस्या भयो।', filterDate: 'मिति छान्नुहोस् (नेपाली / अंग्रेजी)', clear: 'हटाउनुहोस्', token: 'रसिद नं.', date: 'नेपाली मिति', time: 'समय', service: 'सेवा', amount: 'रकम', noTransactions: 'कुनै लेनदेन भेटिएन।',
     allCounters: 'सबै काउन्टर', allUsers: 'सबै सञ्चालक', allServices: 'सबै सेवाहरू', filterCounter: 'काउन्टर', filterUser: 'सञ्चालक', filterService: 'सेवा', applyFilter: 'खोज्नुहोस्', pagination: 'पृष्ठ चयन', page: 'पृष्ठ', of: '/', prev: 'अघिल्लो', next: 'पछिल्लो', perPage: 'प्रति पृष्ठ', totalReceipts: 'कुल जारी रसिद', totalCollection: 'कुल संकलित रकम', serviceBreakdown: 'सेवा अनुसार संकलन विवरण', receiptsGenerated: 'रसिद सङ्ख्या', collectionAmount: 'संकलित रकम', operator: 'सञ्चालक', paymentMethod: 'भुक्तानी विधि', share: 'प्रतिशत'
   }
 };
@@ -32,6 +32,7 @@ export default function Home() {
   const [newDisplayName, setNewDisplayName] = useState('');
   const [newUserPassword, setNewUserPassword] = useState('');
   const [editingUser, setEditingUser] = useState(null);
+  const [editingDevice, setEditingDevice] = useState(null);
 
   // Filter and pagination states for transactions
   const [filterDate, setFilterDate] = useState('');
@@ -230,6 +231,69 @@ export default function Home() {
     }
   }
 
+  async function editDevice(event) {
+    event.preventDefault();
+    if (!editingDevice) return;
+    setLoading(true);
+    setMessage('');
+    try {
+      const response = await fetch(`${API_URL}/api/devices/${editingDevice.deviceId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ deviceName: editingDevice.deviceName, active: editingDevice.active })
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.message || t.error);
+      setEditingDevice(null);
+      setMessage(t.counterUpdated);
+      await loadDevices();
+    } catch (error) {
+      setMessage(error.message || t.error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteDevice(dev) {
+    if (!window.confirm(t.confirmDeleteCounter)) return;
+    setLoading(true);
+    setMessage('');
+    try {
+      const response = await fetch(`${API_URL}/api/devices/${dev.deviceId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.message || t.error);
+      setMessage(t.counterDeleted);
+      await loadDevices();
+    } catch (error) {
+      setMessage(error.message || t.error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteUser(user) {
+    if (!window.confirm(t.confirmDeleteUser)) return;
+    setLoading(true);
+    setMessage('');
+    try {
+      const response = await fetch(`${API_URL}/api/auth/users/${user.id || user._id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.message || t.error);
+      setMessage(t.userDeleted);
+      await loadUsers();
+    } catch (error) {
+      setMessage(error.message || t.error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function changePassword(event) {
     event.preventDefault();
     if (newPassword !== confirmPassword) return setMessage(t.mismatch);
@@ -333,8 +397,13 @@ export default function Home() {
             deviceName={deviceName}
             setDeviceName={setDeviceName}
             addDevice={addDevice}
+            editingDevice={editingDevice}
+            setEditingDevice={setEditingDevice}
+            editDevice={editDevice}
+            deleteDevice={deleteDevice}
             loadDevices={loadDevices}
             loading={loading}
+            message={message}
           />
         )}
 
@@ -352,6 +421,7 @@ export default function Home() {
             editingUser={editingUser}
             setEditingUser={setEditingUser}
             updateUser={updateUser}
+            deleteUser={deleteUser}
             loading={loading}
             message={message}
           />
@@ -477,7 +547,7 @@ function Dashboard({ devices, t, onCounters }) {
   );
 }
 
-function Counters({ devices, t, deviceId, setDeviceId, deviceName, setDeviceName, addDevice, loadDevices, loading }) {
+function Counters({ devices, t, deviceId, setDeviceId, deviceName, setDeviceName, addDevice, editingDevice, setEditingDevice, editDevice, deleteDevice, loadDevices, loading, message }) {
   return (
     <div className="pageContent">
       <div className="pageIntro">
@@ -485,21 +555,57 @@ function Counters({ devices, t, deviceId, setDeviceId, deviceName, setDeviceName
         <h2>{t.counterManagement}</h2>
         <p className="subtle">{t.counterSub}</p>
       </div>
+      {message && <p className="success" style={{ marginBottom: 16 }}>{message}</p>}
       <div className="contentGrid">
         <section className="panel">
-          <p className="kicker">{t.addCounter}</p>
-          <h3>{t.counterManagement}</h3>
-          <form onSubmit={addDevice} className="form">
-            <label>
-              {t.deviceId}
-              <input value={deviceId} onChange={(event) => setDeviceId(event.target.value.toUpperCase())} placeholder="DEV001" required />
-            </label>
-            <label>
-              {t.counterName}
-              <input value={deviceName} onChange={(event) => setDeviceName(event.target.value)} placeholder="Counter 1" required />
-            </label>
-            <button disabled={loading}>{t.saveCounter}</button>
-          </form>
+          {editingDevice ? (
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <p className="kicker">{t.editCounter}</p>
+                <button type="button" className="quiet" onClick={() => setEditingDevice(null)}>{t.cancel}</button>
+              </div>
+              <h3>{editingDevice.deviceId}</h3>
+              <form onSubmit={editDevice} className="form">
+                <label>
+                  {t.counterName}
+                  <input
+                    value={editingDevice.deviceName || ''}
+                    onChange={(e) => setEditingDevice({ ...editingDevice, deviceName: e.target.value })}
+                    required
+                  />
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    style={{ width: 'auto' }}
+                    checked={editingDevice.active !== false}
+                    onChange={(e) => setEditingDevice({ ...editingDevice, active: e.target.checked })}
+                  />
+                  <span>{t.active}</span>
+                </label>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <button disabled={loading} style={{ flex: 1 }}>{loading ? '...' : t.updateCounter}</button>
+                  <button type="button" className="quiet" onClick={() => setEditingDevice(null)}>{t.cancel}</button>
+                </div>
+              </form>
+            </div>
+          ) : (
+            <div>
+              <p className="kicker">{t.addCounter}</p>
+              <h3>{t.counterManagement}</h3>
+              <form onSubmit={addDevice} className="form">
+                <label>
+                  {t.deviceId}
+                  <input value={deviceId} onChange={(event) => setDeviceId(event.target.value.toUpperCase())} placeholder="DEV001" required />
+                </label>
+                <label>
+                  {t.counterName}
+                  <input value={deviceName} onChange={(event) => setDeviceName(event.target.value)} placeholder="Counter 1" required />
+                </label>
+                <button disabled={loading}>{t.saveCounter}</button>
+              </form>
+            </div>
+          )}
         </section>
         <section className="panel">
           <div className="panelHead">
@@ -509,7 +615,21 @@ function Counters({ devices, t, deviceId, setDeviceId, deviceName, setDeviceName
             </div>
             <button className="quiet" onClick={loadDevices}>{t.refresh}</button>
           </div>
-          <DeviceRows devices={devices} t={t} />
+          {devices.length ? devices.map((dev) => (
+            <div className="deviceRow" key={dev.deviceId}>
+              <div>
+                <strong>{dev.deviceName}</strong>
+                <span>{dev.deviceId}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span className={`badge ${dev.active !== false ? '' : 'inactive'}`}>
+                  {dev.active !== false ? t.active : t.inactive}
+                </span>
+                <button type="button" className="quiet small" onClick={() => setEditingDevice({ ...dev })}>✏ {t.edit}</button>
+                <button type="button" className="quiet small dangerBtn" onClick={() => deleteDevice(dev)}>✕ {t.delete}</button>
+              </div>
+            </div>
+          )) : <p className="subtle">{t.noCounters}</p>}
         </section>
       </div>
     </div>
@@ -607,7 +727,7 @@ function Users({ users, t, username, setUsername, displayName, setDisplayName, p
                   <strong>{user.displayName}</strong>
                   <span>@{user.username}</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span className={`badge ${user.active !== false ? '' : 'inactive'}`}>
                     {user.active !== false ? t.active : t.inactive}
                   </span>
@@ -617,6 +737,13 @@ function Users({ users, t, username, setUsername, displayName, setDisplayName, p
                     onClick={() => setEditingUser({ ...user, password: '' })}
                   >
                     ✏ {t.edit}
+                  </button>
+                  <button
+                    type="button"
+                    className="quiet small dangerBtn"
+                    onClick={() => deleteUser(user)}
+                  >
+                    ✕ {t.delete}
                   </button>
                 </div>
               </div>

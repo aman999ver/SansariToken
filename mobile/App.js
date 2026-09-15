@@ -3,7 +3,7 @@ import * as Crypto from 'expo-crypto';
 import NetInfo from '@react-native-community/netinfo';
 import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, Alert, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { createTransaction, countPendingTransactions, getSetting, initializeDatabase, listTransactions, setSetting } from './src/database/database';
+import { createTransaction, countPendingTransactions, getSetting, initializeDatabase, listTransactionsPaginated, setSetting } from './src/database/database';
 import { defaultServices } from './src/constants/defaultServices';
 import { API_BASE_URL, TEMPLE_NAME } from './src/constants/appConfig';
 import { fetchAvailableDevices, fetchServices, loginUser } from './src/services/api';
@@ -20,7 +20,6 @@ export default function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const [amount, setAmount] = useState('');
-  const [history, setHistory] = useState([]);
   const [pendingCount, setPendingCount] = useState(0);
   const [lastTransaction, setLastTransaction] = useState(null);
   const [online, setOnline] = useState(false);
@@ -62,7 +61,7 @@ export default function App() {
   if (screen === 'detail') return <DetailScreen service={selectedService} onBack={() => setScreen('services')} onSelect={(option) => { setSelectedOption(option); setAmount(String(option?.price ?? '')); setScreen('confirm'); }} />;
   if (screen === 'confirm') return <ConfirmScreen service={selectedService} option={selectedOption} amount={amount} setAmount={setAmount} onBack={() => setScreen('detail')} onConfirm={() => generateToken()} />;
   if (screen === 'success') return <SuccessScreen transaction={lastTransaction} onHome={() => setScreen('services')} onHistory={openHistory} />;
-  if (screen === 'history') return <HistoryScreen history={history} pendingCount={pendingCount} onBack={() => setScreen('services')} />;
+  if (screen === 'history') return <HistoryScreen apiUrl={API_BASE_URL} deviceId={settings.device_id} pendingCount={pendingCount} onPendingChange={setPendingCount} onBack={() => setScreen('services')} />;
   return <ServiceScreen services={services} pendingCount={pendingCount} online={online} onSelect={(service) => { setSelectedService(service); setScreen('detail'); }} onHistory={openHistory} />;
 
   async function generateToken() {
@@ -92,7 +91,7 @@ export default function App() {
     } catch { Alert.alert('टोकन सुरक्षित भएन', 'लेनदेन सुरक्षित नभएसम्म फेरि प्रयास गर्नुहोस्।'); }
   }
 
-  async function openHistory() { setHistory(await listTransactions()); setScreen('history'); }
+  async function openHistory() { setScreen('history'); }
 }
 
 function Centered({ children }) { return <View style={styles.centered}>{children}</View>; }
@@ -124,7 +123,139 @@ function ConfirmScreen({ service, option, amount, setAmount, onBack, onConfirm }
 
 function SuccessScreen({ transaction, onHome }) { return <SafeAreaView style={styles.safe}><View style={styles.success}><Text style={styles.successMark}>✓</Text><Text style={styles.title}>रसिद तयार भयो</Text><Text style={styles.token}>{transaction.receiptNumber}</Text><Text style={styles.successAmount}>रु {transaction.amount}</Text><Text style={styles.muted}>प्रिन्ट सम्पन्न</Text><PrimaryButton title="नयाँ रसिद" onPress={onHome} /></View></SafeAreaView>; }
 
-function HistoryScreen({ history, pendingCount, onBack }) { return <SafeAreaView style={styles.safe}><ScrollView contentContainerStyle={styles.content}><BackButton onPress={onBack} /><Text style={styles.title}>टोकन इतिहास</Text><Text style={styles.muted}>{pendingCount} sync हुन बाँकी</Text>{history.map((item) => <View style={styles.historyRow} key={item.local_id}><View><Text style={styles.serviceName}>{item.token_number}</Text><Text style={styles.muted}>{item.service_name} {item.item_name ? `· ${item.item_name}` : ''}</Text></View><View><Text style={styles.amount}>रु {item.amount}</Text><Text style={item.sync_status === 'synced' ? styles.synced : styles.pending}>{item.sync_status}</Text></View></View>)}</ScrollView></SafeAreaView>; }
+function HistoryScreen({ apiUrl, deviceId, pendingCount: initPending, onPendingChange, onBack }) {
+  const PAGE_SIZE = 15;
+  const FILTERS = [
+    { key: 'all', label: 'सबै' },
+    { key: 'pending', label: 'Pending' },
+    { key: 'synced', label: 'Synced' },
+    { key: 'failed', label: 'Failed' },
+  ];
+  const [filter, setFilter] = useState('all');
+  const [page, setPage] = useState(1);
+  const [rows, setRows] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
+  const [pendingCount, setPendingCount] = useState(initPending);
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+
+  async function load(f = filter, p = page) {
+    setLoading(true);
+    try {
+      const result = await listTransactionsPaginated({ page: p, pageSize: PAGE_SIZE, filter: f });
+      setRows(result.rows);
+      setTotal(result.total);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => { load(filter, page); }, [filter, page]);
+
+  async function handleSync() {
+    setSyncing(true);
+    try {
+      const { syncPendingTransactions } = require('./src/services/syncService');
+      const result = await syncPendingTransactions({ apiUrl, deviceId });
+      setPendingCount(result.pending);
+      if (onPendingChange) onPendingChange(result.pending);
+      await load(filter, 1);
+      setPage(1);
+    } finally {
+      setSyncing(false);
+    }
+  }
+
+  function changeFilter(f) { setFilter(f); setPage(1); }
+
+  const STATUS_COLOR = { synced: '#0b6b62', pending: '#b47d00', syncing: '#5b7fbf', failed: '#c0392b' };
+  const STATUS_LABEL = { synced: '✓ Synced', pending: '⏳ Pending', syncing: '↻ Syncing', failed: '✗ Failed' };
+
+  return (
+    <SafeAreaView style={styles.safe}>
+      <View style={{ flex: 1 }}>
+        {/* Header */}
+        <View style={histStyles.header}>
+          <BackButton onPress={onBack} />
+          <View style={{ flex: 1, marginLeft: 10 }}>
+            <Text style={styles.title}>टोकन इतिहास</Text>
+            <Text style={styles.muted}>{pendingCount > 0 ? `${pendingCount} sync हुन बाँकी` : 'सबै सुरक्षित'}</Text>
+          </View>
+          <Pressable
+            style={[histStyles.syncBtn, syncing && { opacity: 0.5 }]}
+            onPress={handleSync}
+            disabled={syncing}
+          >
+            <Text style={histStyles.syncBtnText}>{syncing ? '↻ Sync...' : '↻ Sync Now'}</Text>
+          </Pressable>
+        </View>
+
+        {/* Filter Tabs */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={histStyles.tabBar} contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }}>
+          {FILTERS.map((f) => (
+            <Pressable key={f.key} style={[histStyles.tab, filter === f.key && histStyles.tabActive]} onPress={() => changeFilter(f.key)}>
+              <Text style={[histStyles.tabText, filter === f.key && histStyles.tabTextActive]}>{f.label}</Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+
+        {/* List */}
+        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}>
+          {loading ? (
+            <View style={{ paddingVertical: 40, alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#0b6b62" />
+            </View>
+          ) : rows.length === 0 ? (
+            <View style={{ paddingVertical: 40, alignItems: 'center' }}>
+              <Text style={styles.muted}>कुनै इतिहास भेटिएन।</Text>
+            </View>
+          ) : rows.map((item) => (
+            <View key={item.local_id} style={histStyles.card}>
+              <View style={histStyles.cardTop}>
+                <Text style={histStyles.tokenNum}>{item.token_number}</Text>
+                <View style={[histStyles.badge, { backgroundColor: (STATUS_COLOR[item.sync_status] || '#888') + '22' }]}>
+                  <Text style={[histStyles.badgeText, { color: STATUS_COLOR[item.sync_status] || '#888' }]}>
+                    {STATUS_LABEL[item.sync_status] || item.sync_status}
+                  </Text>
+                </View>
+              </View>
+              <Text style={histStyles.serviceName}>{item.service_name}{item.item_name ? ` · ${item.item_name}` : ''}</Text>
+              <View style={histStyles.cardBottom}>
+                <Text style={histStyles.amount}>रु {item.amount}</Text>
+                <Text style={histStyles.meta}>{item.nepali_date || ''} {item.token_time || ''}</Text>
+              </View>
+              {item.sync_status === 'failed' && (
+                <Pressable style={histStyles.retryBtn} onPress={handleSync} disabled={syncing}>
+                  <Text style={histStyles.retryText}>↺ Retry Sync</Text>
+                </Pressable>
+              )}
+            </View>
+          ))}
+        </ScrollView>
+
+        {/* Pagination */}
+        <View style={histStyles.pagination}>
+          <Pressable
+            style={[histStyles.pageBtn, page <= 1 && { opacity: 0.3 }]}
+            onPress={() => { if (page > 1) setPage(page - 1); }}
+            disabled={page <= 1}
+          >
+            <Text style={histStyles.pageBtnText}>‹ अघिल्लो</Text>
+          </Pressable>
+          <Text style={histStyles.pageInfo}>{page} / {totalPages} ({total} रेकर्ड)</Text>
+          <Pressable
+            style={[histStyles.pageBtn, page >= totalPages && { opacity: 0.3 }]}
+            onPress={() => { if (page < totalPages) setPage(page + 1); }}
+            disabled={page >= totalPages}
+          >
+            <Text style={histStyles.pageBtnText}>पछिल्लो ›</Text>
+          </Pressable>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+}
 
 function Field({ label, ...props }) { return <View style={styles.field}><Text style={styles.label}>{label}</Text><TextInput style={styles.input} {...props} /></View>; }
 function PrimaryButton({ title, onPress }) { return <Pressable style={styles.primary} onPress={onPress}><Text style={styles.primaryText}>{title}</Text></Pressable>; }
@@ -172,4 +303,30 @@ const styles = StyleSheet.create({
   successAmount: { color: '#182321', fontSize: 22, fontWeight: '800', marginBottom: 10 },
   historyRow: { backgroundColor: '#fff', borderBottomColor: '#e0e5df', borderBottomWidth: 1, paddingVertical: 16, flexDirection: 'row', justifyContent: 'space-between' },
   synced: { color: '#39805d', fontSize: 12, marginTop: 4 }, pending: { color: '#aa6b2f', fontSize: 12, marginTop: 4 },
+});
+
+const histStyles = StyleSheet.create({
+  header: { flexDirection: 'row', alignItems: 'center', padding: 16, paddingTop: 8, backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#e8ede8' },
+  syncBtn: { backgroundColor: '#0b6b62', borderRadius: 8, paddingHorizontal: 14, paddingVertical: 9 },
+  syncBtnText: { color: '#fff', fontWeight: '800', fontSize: 13 },
+  tabBar: { backgroundColor: '#fff', borderBottomWidth: 1, borderBottomColor: '#e8ede8', flexGrow: 0, paddingVertical: 10 },
+  tab: { paddingHorizontal: 16, paddingVertical: 7, borderRadius: 20, backgroundColor: '#f0f4f0', marginRight: 8 },
+  tabActive: { backgroundColor: '#0b6b62' },
+  tabText: { color: '#4a6358', fontWeight: '700', fontSize: 13 },
+  tabTextActive: { color: '#fff' },
+  card: { backgroundColor: '#fff', borderRadius: 14, marginVertical: 6, padding: 16, shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 4, shadowOffset: { width: 0, height: 2 }, elevation: 2 },
+  cardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 },
+  tokenNum: { color: '#0b6b62', fontSize: 16, fontWeight: '900', letterSpacing: 0.5 },
+  badge: { borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 },
+  badgeText: { fontSize: 12, fontWeight: '700' },
+  serviceName: { color: '#34413d', fontSize: 15, fontWeight: '600', marginBottom: 8 },
+  cardBottom: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  amount: { color: '#182321', fontSize: 18, fontWeight: '800' },
+  meta: { color: '#8a9e98', fontSize: 12 },
+  retryBtn: { marginTop: 10, backgroundColor: '#fef0ee', borderRadius: 8, paddingHorizontal: 14, paddingVertical: 8, alignSelf: 'flex-start' },
+  retryText: { color: '#c0392b', fontWeight: '700', fontSize: 13 },
+  pagination: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#e8ede8', paddingHorizontal: 16, paddingVertical: 12 },
+  pageBtn: { paddingHorizontal: 14, paddingVertical: 8, backgroundColor: '#f0f4f0', borderRadius: 8 },
+  pageBtnText: { color: '#0b6b62', fontWeight: '700', fontSize: 13 },
+  pageInfo: { color: '#4a6358', fontSize: 13, fontWeight: '600' },
 });
