@@ -89,6 +89,8 @@ async function list(req, res) {
   return sendSuccess(res, {
     devices: devices.map((device) => ({
       ...device,
+      counterId: device.counterId || 'C1',
+      counterName: device.counterName || 'Counter 1',
       transactionCount: byId.get(device.deviceId)?.count || 0,
       totalCollection: byId.get(device.deviceId)?.total || 0
     }))
@@ -96,27 +98,50 @@ async function list(req, res) {
 }
 
 async function getOne(req, res) {
-  const device = await Device.findOne({ deviceId: req.params.deviceId.toUpperCase() }).lean();
+  const cleanId = decodeURIComponent(req.params.deviceId).trim().toUpperCase();
+  const device = await Device.findOne({ deviceId: cleanId }).lean();
   if (!device) return res.status(404).json({ success: false, message: 'Device not found', errorCode: 'NOT_FOUND' });
   const summary = await Transaction.aggregate([{ $match: { deviceId: device.deviceId } }, { $group: { _id: null, count: { $sum: 1 }, total: { $sum: '$amount' } } }]);
   return sendSuccess(res, { device, summary: summary[0] || { count: 0, total: 0 } });
 }
 
 async function update(req, res) {
-  const cleanId = req.params.deviceId.toUpperCase();
-  const updateData = { ...req.body };
-  if (updateData.counterId) {
-    const cInfo = await resolveCounter(updateData.counterId);
-    updateData.counterId = cInfo.counterId;
-    updateData.counterName = cInfo.counterName;
-  }
-  const device = await Device.findOneAndUpdate({ deviceId: cleanId }, { $set: updateData }, { new: true, runValidators: true });
+  const cleanId = decodeURIComponent(req.params.deviceId).trim().toUpperCase();
+  const { newDeviceId, deviceName, counterId, active } = req.body || {};
+
+  const device = await Device.findOne({ deviceId: cleanId });
   if (!device) return res.status(404).json({ success: false, message: 'Device not found', errorCode: 'NOT_FOUND' });
+
+  let targetId = cleanId;
+  if (newDeviceId && newDeviceId.trim().toUpperCase() !== cleanId) {
+    targetId = newDeviceId.trim().toUpperCase();
+    const existing = await Device.findOne({ deviceId: targetId });
+    if (existing) {
+      return res.status(400).json({ success: false, message: 'A device with this new ID already exists', errorCode: 'DUPLICATE_ERROR' });
+    }
+    device.deviceId = targetId;
+  }
+
+  if (deviceName !== undefined) device.deviceName = deviceName.trim();
+  if (active !== undefined) device.active = Boolean(active);
+  if (counterId !== undefined) {
+    const cInfo = await resolveCounter(counterId);
+    device.counterId = cInfo.counterId;
+    device.counterName = cInfo.counterName;
+  }
+
+  await device.save();
+
+  if (targetId !== cleanId) {
+    await Transaction.updateMany({ deviceId: cleanId }, { $set: { deviceId: targetId } });
+  }
+
   return sendSuccess(res, { device });
 }
 
 async function remove(req, res) {
-  const device = await Device.findOneAndDelete({ deviceId: req.params.deviceId.toUpperCase() });
+  const cleanId = decodeURIComponent(req.params.deviceId).trim().toUpperCase();
+  const device = await Device.findOneAndDelete({ deviceId: cleanId });
   if (!device) return res.status(404).json({ success: false, message: 'Device not found', errorCode: 'NOT_FOUND' });
   return sendSuccess(res, { message: 'Device deleted successfully' });
 }

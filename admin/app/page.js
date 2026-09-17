@@ -9,12 +9,14 @@ const text = {
   en: {
     users: 'Users', userManagement: 'User management', userSub: 'Create and manage accounts for counter operators.', displayName: 'Display name', createUser: 'Create user', editUser: 'Edit user', updateUser: 'Update user', cancel: 'Cancel', status: 'Status', userList: 'Operator accounts', noUsers: 'No users created yet.', userUpdated: 'User updated successfully.', userDeleted: 'User deleted.', edit: 'Edit', delete: 'Delete', active: 'Active', inactive: 'Inactive', confirmDeleteUser: 'Are you sure you want to delete this user?', confirmDeleteCounter: 'Are you sure you want to delete this counter?', confirmDeleteDevice: 'Are you sure you want to delete this device?',
     admin: 'ADMIN CONSOLE', loginSub: 'Manage counters, services, and collections', username: 'Username', password: 'Password', optionalPassword: 'New password (leave blank to keep current)', login: 'Sign in', signingIn: 'Signing in...', dashboard: 'Dashboard', counters: 'Counters', transactions: 'Transactions', security: 'Security', logout: 'Sign out', overview: 'Overview', overviewSub: 'A clear view of your collection operation.', activeCounters: 'Active counters', counterManagement: 'Counter & device management', counterSub: 'Manage counters and assign multiple POS devices to each counter.', addCounter: 'Add counter', editCounter: 'Edit counter', counterId: 'Counter ID / Code', counterName: 'Counter name', saveCounter: 'Save counter', updateCounter: 'Update counter', addDevice: 'Add POS device', editDevice: 'Edit device', deviceId: 'Device ID', deviceName: 'Device name', saveDevice: 'Save device', updateDevice: 'Update device', selectCounter: 'Assigned counter', assignedDevices: 'Assigned devices', noDevicesInCounter: 'No devices assigned to this counter yet.', totalCounters: 'Total counters', totalDevices: 'Total devices', activeCounterList: 'Counters & Assigned Devices', refresh: 'Refresh', noCounters: 'No counters have been added yet.', counterDeleted: 'Counter deleted.', counterUpdated: 'Counter updated.', deviceDeleted: 'Device deleted.', deviceUpdated: 'Device updated.', deviceAdded: 'Device added successfully.', passwordChange: 'Change password', passwordSub: 'Keep your administrator account protected.', currentPassword: 'Current password', newPassword: 'New password', confirmPassword: 'Confirm new password', savePassword: 'Update password', language: 'Language', nepali: 'नेपाली', english: 'English', added: 'Saved successfully.', changed: 'Password changed successfully.', mismatch: 'New passwords do not match.', loginFailed: 'Login failed.', error: 'Something went wrong.', filterDate: 'Filter date (Nepali / ISO)', clear: 'Clear', token: 'Receipt #', date: 'Nepali date', time: 'Time', service: 'Service', amount: 'Amount', noTransactions: 'No transactions found.',
-    allCounters: 'All counters', allDevices: 'All devices', allUsers: 'All operators', allServices: 'All services', filterCounter: 'Counter', filterDevice: 'Device', filterUser: 'Operator', filterService: 'Service', applyFilter: 'Filter', pagination: 'Pagination', page: 'Page', of: 'of', prev: 'Previous', next: 'Next', perPage: 'Per page', totalReceipts: 'Total receipts', totalCollection: 'Total collection', serviceBreakdown: 'Service-wise collection breakdown', receiptsGenerated: 'Receipts count', collectionAmount: 'Total amount', operator: 'Operator', paymentMethod: 'Payment', share: 'Share'
+    allCounters: 'All counters', allDevices: 'All devices', allUsers: 'All operators', allServices: 'All services', filterCounter: 'Counter', filterDevice: 'Device', filterUser: 'Operator', filterService: 'Service', applyFilter: 'Filter', pagination: 'Pagination', page: 'Page', of: 'of', prev: 'Previous', next: 'Next', perPage: 'Per page', totalReceipts: 'Total receipts', totalCollection: 'Total collection', serviceBreakdown: 'Service-wise collection breakdown', receiptsGenerated: 'Receipts count', collectionAmount: 'Total amount', operator: 'Operator', paymentMethod: 'Payment', share: 'Share',
+    deviceDirectory: 'All Devices Directory', manage: 'Manage', editCodeNote: 'Note: Changing this ID updates all assigned devices and transactions.', editDeviceNote: 'Note: Changing device ID updates historical transaction records.', unassignedDevices: 'Unassigned Devices', reassignCounter: 'Assign to Counter'
   },
   ne: {
     users: 'प्रयोगकर्ता', userManagement: 'प्रयोगकर्ता व्यवस्थापन', userSub: 'काउन्टर सञ्चालकका खाताहरू सिर्जना र व्यवस्थापन गर्नुहोस्।', displayName: 'देखिने नाम', createUser: 'प्रयोगकर्ता बनाउनुहोस्', editUser: 'प्रयोगकर्ता सम्पादन', updateUser: 'विवरण अद्यावधिक गर्नुहोस्', cancel: 'रद्द गर्नुहोस्', status: 'स्थिति', userList: 'सञ्चालक खाताहरू', noUsers: 'अहिलेसम्म प्रयोगकर्ता बनेका छैनन्।', userUpdated: 'प्रयोगकर्ता विवरण अद्यावधिक भयो।', userDeleted: 'प्रयोगकर्ता हटाइयो।', edit: 'सम्पादन', delete: 'हटाउनुहोस्', active: 'सक्रिय', inactive: 'निष्क्रिय', confirmDeleteUser: 'यो प्रयोगकर्ता हटाउने हो?', confirmDeleteCounter: 'यो काउन्टर हटाउने हो?', confirmDeleteDevice: 'यो उपकरण हटाउने हो?',
     admin: 'प्रशासन कक्ष', loginSub: 'काउन्टर, सेवा र संकलन व्यवस्थापन', username: 'प्रयोगकर्ता नाम', password: 'पासवर्ड', optionalPassword: 'नयाँ पासवर्ड (परिवर्तन नगर्ने भए खाली छोड्नुहोस्)', login: 'प्रवेश गर्नुहोस्', signingIn: 'प्रवेश हुँदैछ...', dashboard: 'ड्यासबोर्ड', counters: 'काउन्टर', transactions: 'लेनदेन', security: 'सुरक्षा', logout: 'बाहिर निस्कनुहोस्', overview: 'अवलोकन', overviewSub: 'तपाईंको संकलन सञ्चालनको स्पष्ट विवरण।', activeCounters: 'सक्रिय काउन्टर', counterManagement: 'काउन्टर र उपकरण व्यवस्थापन', counterSub: 'काउन्टरहरू व्यवस्थापन गर्नुहोस् र एउटै काउन्टरमा धेरै POS उपकरणहरू थप्नुहोस्।', addCounter: 'काउन्टर थप्नुहोस्', editCounter: 'काउन्टर सम्पादन', counterId: 'काउन्टर ID / कोड', counterName: 'काउन्टरको नाम', saveCounter: 'काउन्टर सुरक्षित गर्नुहोस्', updateCounter: 'काउन्टर अद्यावधिक गर्नुहोस्', addDevice: 'उपकरण थप्नुहोस्', editDevice: 'उपकरण सम्पादन', deviceId: 'उपकरण ID', deviceName: 'उपकरणको नाम', saveDevice: 'उपकरण सुरक्षित गर्नुहोस्', updateDevice: 'उपकरण अद्यावधिक गर्नुहोस्', selectCounter: 'तोकिएको काउन्टर', assignedDevices: 'तोकिएका उपकरणहरू', noDevicesInCounter: 'यो काउन्टरमा कुनै उपकरण थपिएको छैन।', totalCounters: 'कुल काउन्टर', totalDevices: 'कुल उपकरण', activeCounterList: 'काउन्टर र तोकिएका उपकरणहरू', refresh: 'रिफ्रेस', noCounters: 'अहिलेसम्म कुनै काउन्टर थपिएको छैन।', counterDeleted: 'काउन्टर हटाइयो।', counterUpdated: 'काउन्टर अद्यावधिक भयो।', deviceDeleted: 'उपकरण हटाइयो।', deviceUpdated: 'उपकरण अद्यावधिक भयो।', deviceAdded: 'उपकरण सफलतापूर्वक थपियो।', passwordChange: 'पासवर्ड परिवर्तन', passwordSub: 'तपाईंको प्रशासनिक खाता सुरक्षित राख्नुहोस्।', currentPassword: 'हालको पासवर्ड', newPassword: 'नयाँ पासवर्ड', confirmPassword: 'नयाँ पासवर्ड फेरि', savePassword: 'पासवर्ड सुरक्षित गर्नुहोस्', language: 'भाषा', nepali: 'नेपाली', english: 'English', added: 'सफलतापूर्वक सुरक्षित भयो।', changed: 'पासवर्ड परिवर्तन भयो।', mismatch: 'नयाँ पासवर्ड मिलेन।', loginFailed: 'प्रवेश असफल भयो।', error: 'केही समस्या भयो।', filterDate: 'मिति छान्नुहोस् (नेपाली / अंग्रेजी)', clear: 'हटाउनुहोस्', token: 'रसिद नं.', date: 'नेपाली मिति', time: 'समय', service: 'सेवा', amount: 'रकम', noTransactions: 'कुनै लेनदेन भेटिएन।',
-    allCounters: 'सबै काउन्टर', allDevices: 'सबै उपकरण', allUsers: 'सबै सञ्चालक', allServices: 'सबै सेवाहरू', filterCounter: 'काउन्टर', filterDevice: 'उपकरण', filterUser: 'सञ्चालक', filterService: 'सेवा', applyFilter: 'खोज्नुहोस्', pagination: 'पृष्ठ चयन', page: 'पृष्ठ', of: '/', prev: 'अघिल्लो', next: 'पछिल्लो', perPage: 'प्रति पृष्ठ', totalReceipts: 'कुल जारी रसिद', totalCollection: 'कुल संकलित रकम', serviceBreakdown: 'सेवा अनुसार संकलन विवरण', receiptsGenerated: 'रसिद सङ्ख्या', collectionAmount: 'संकलित रकम', operator: 'सञ्चालक', paymentMethod: 'भुक्तानी विधि', share: 'प्रतिशत'
+    allCounters: 'सबै काउन्टर', allDevices: 'सबै उपकरण', allUsers: 'सबै सञ्चालक', allServices: 'सबै सेवाहरू', filterCounter: 'काउन्टर', filterDevice: 'उपकरण', filterUser: 'सञ्चालक', filterService: 'सेवा', applyFilter: 'खोज्नुहोस्', pagination: 'पृष्ठ चयन', page: 'पृष्ठ', of: '/', prev: 'अघिल्लो', next: 'पछिल्लो', perPage: 'प्रति पृष्ठ', totalReceipts: 'कुल जारी रसिद', totalCollection: 'कुल संकलित रकम', serviceBreakdown: 'सेवा अनुसार संकलन विवरण', receiptsGenerated: 'रसिद सङ्ख्या', collectionAmount: 'संकलित रकम', operator: 'सञ्चालक', paymentMethod: 'भुक्तानी विधि', share: 'प्रतिशत',
+    deviceDirectory: 'सबै उपकरणहरूको सूची', manage: 'व्यवस्थापन', editCodeNote: 'नोट: यो कोड परिवर्तन गर्दा यसमा तोकिएका सबै उपकरण र कारोबारहरू पनि अद्यावधिक हुनेछन्।', editDeviceNote: 'नोट: उपकरण ID परिवर्तन गर्दा अघिल्ला कारोबार विवरणहरू पनि अद्यावधिक हुनेछन्।', unassignedDevices: 'काउन्टर नतोकिएका उपकरणहरू', reassignCounter: 'काउन्टर तोक्नुहोस्'
   }
 };
 
@@ -280,16 +282,21 @@ export default function Home() {
     setLoading(true);
     setMessage('');
     try {
-      const response = await fetch(`${API_URL}/api/counters/${editingCounter.counterId}`, {
+      const response = await fetch(`${API_URL}/api/counters/${encodeURIComponent(editingCounter.counterId)}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ counterName: editingCounter.counterName, active: editingCounter.active })
+        body: JSON.stringify({
+          newCounterId: editingCounter.newCounterId || editingCounter.counterId,
+          counterName: editingCounter.counterName,
+          active: editingCounter.active
+        })
       });
       const body = await response.json();
       if (!response.ok) throw new Error(body.message || t.error);
       setEditingCounter(null);
       setMessage(t.counterUpdated);
       await loadCounters();
+      await loadDevices();
     } catch (error) {
       setMessage(error.message || t.error);
     } finally {
@@ -302,7 +309,7 @@ export default function Home() {
     setLoading(true);
     setMessage('');
     try {
-      const response = await fetch(`${API_URL}/api/counters/${cnt.counterId}`, {
+      const response = await fetch(`${API_URL}/api/counters/${encodeURIComponent(cnt.counterId)}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -310,6 +317,7 @@ export default function Home() {
       if (!response.ok) throw new Error(body.message || t.error);
       setMessage(t.counterDeleted);
       await loadCounters();
+      await loadDevices();
     } catch (error) {
       setMessage(error.message || t.error);
     } finally {
@@ -348,10 +356,11 @@ export default function Home() {
     setLoading(true);
     setMessage('');
     try {
-      const response = await fetch(`${API_URL}/api/devices/${editingDevice.deviceId}`, {
+      const response = await fetch(`${API_URL}/api/devices/${encodeURIComponent(editingDevice.deviceId)}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({
+          newDeviceId: editingDevice.newDeviceId || editingDevice.deviceId,
           deviceName: editingDevice.deviceName,
           counterId: editingDevice.counterId,
           active: editingDevice.active
@@ -375,7 +384,7 @@ export default function Home() {
     setLoading(true);
     setMessage('');
     try {
-      const response = await fetch(`${API_URL}/api/devices/${dev.deviceId}`, {
+      const response = await fetch(`${API_URL}/api/devices/${encodeURIComponent(dev.deviceId)}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -533,6 +542,7 @@ export default function Home() {
             activeManageTab={activeManageTab}
             setActiveManageTab={setActiveManageTab}
             loadCounters={loadCounters}
+            loadDevices={loadDevices}
             loading={loading}
             message={message}
           />
@@ -654,6 +664,7 @@ function NavItem({ active, onClick, label, icon }) {
 function Dashboard({ counters = [], devices = [], t, onCounters }) {
   const activeCountersCount = counters.filter((c) => c.active !== false).length;
   const activeDevicesCount = devices.filter((d) => d.active !== false).length;
+
   return (
     <div className="pageContent">
       <div className="pageIntro">
@@ -661,6 +672,7 @@ function Dashboard({ counters = [], devices = [], t, onCounters }) {
         <h2>{t.counterManagement}</h2>
         <p className="subtle">{t.overviewSub}</p>
       </div>
+
       <div className="metricGrid">
         <div className="metricCard accent">
           <span>{t.activeCounters}</span>
@@ -673,26 +685,113 @@ function Dashboard({ counters = [], devices = [], t, onCounters }) {
           <small>{t.active}</small>
         </div>
       </div>
+
+      {/* Counter List with Nested Devices explicitly displayed */}
       <section className="panel">
         <div className="panelHead">
           <div>
             <p className="kicker">{t.counters}</p>
             <h3>{t.activeCounterList}</h3>
           </div>
-          <button className="quiet" onClick={onCounters}>{t.counters} →</button>
+          <button className="quiet" onClick={onCounters}>{t.manage} →</button>
+        </div>
+
+        <div style={{ marginTop: 14 }}>
+          {counters.length ? counters.map((c) => {
+            const cleanCId = (c.counterId || '').trim().toUpperCase();
+            const cntDevs = (c.devices && c.devices.length > 0)
+              ? c.devices
+              : devices.filter((d) => (d.counterId || '').trim().toUpperCase() === cleanCId);
+
+            return (
+              <div className="counterCard" key={c.counterId} style={{ marginBottom: 16 }}>
+                <div className="counterCardHeader" style={{ marginBottom: cntDevs.length ? 12 : 0 }}>
+                  <div>
+                    <strong style={{ fontSize: 17 }}>{c.counterName}</strong>
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 4 }}>
+                      <span className="codeTag">{c.counterId}</span>
+                      <span className={`badge ${c.active !== false ? '' : 'inactive'}`}>
+                        {c.active !== false ? t.active : t.inactive}
+                      </span>
+                      <span className="subtle" style={{ fontSize: 12 }}>
+                        • {cntDevs.length} {t.devices}
+                      </span>
+                      {c.transactionCount ? (
+                        <span className="subtle" style={{ fontSize: 12 }}>
+                          • {c.transactionCount} {t.token}
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                  <button className="quiet small" onClick={onCounters}>
+                    {t.manage} →
+                  </button>
+                </div>
+
+                {/* Assigned devices explicitly shown */}
+                {cntDevs.length ? (
+                  <div className="subDeviceList">
+                    <div style={{ fontSize: 11, fontWeight: 'bold', color: 'var(--muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '.05em' }}>
+                      {t.assignedDevices} ({cntDevs.length})
+                    </div>
+                    {cntDevs.map((dev) => (
+                      <div className="subDeviceRow" key={dev.deviceId}>
+                        <div>
+                          <strong>{dev.deviceName}</strong>
+                          <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 2 }}>
+                            <span className="codeTag" style={{ fontSize: 10 }}>{dev.deviceId}</span>
+                            <span className={`badge ${dev.active !== false ? '' : 'inactive'}`} style={{ fontSize: 10, padding: '2px 6px' }}>
+                              {dev.active !== false ? t.active : t.inactive}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="subtle" style={{ margin: '8px 0 0', fontSize: 12 }}>{t.noDevicesInCounter}</p>
+                )}
+              </div>
+            );
+          }) : <p className="subtle">{t.noCounters}</p>}
+        </div>
+      </section>
+
+      {/* Full Device Directory Panel */}
+      <section className="panel">
+        <div className="panelHead">
+          <div>
+            <p className="kicker">{t.totalDevices}</p>
+            <h3>{t.deviceDirectory} ({devices.length})</h3>
+          </div>
+          <button className="quiet" onClick={onCounters}>{t.addDevice} +</button>
         </div>
         <div style={{ marginTop: 14 }}>
-          {counters.length ? counters.map((c) => (
-            <div className="deviceRow" key={c.counterId}>
-              <div>
-                <strong>{c.counterName}</strong>
-                <span>{c.counterId} • {c.devices?.length || 0} {t.devices} • {c.transactionCount || 0} {t.token}</span>
+          {devices.length ? (
+            devices.map((dev) => (
+              <div className="deviceRow" key={dev.deviceId}>
+                <div>
+                  <strong>{dev.deviceName}</strong>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4 }}>
+                    <span className="codeTag">{dev.deviceId}</span>
+                    <span className="subtle" style={{ fontSize: 12 }}>
+                      {t.filterCounter}: <strong>{dev.counterName || dev.counterId || 'Counter 1'}</strong> ({dev.counterId || 'C1'})
+                    </span>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span className={`badge ${dev.active !== false ? '' : 'inactive'}`}>
+                    {dev.active !== false ? t.active : t.inactive}
+                  </span>
+                  <button type="button" className="quiet small" onClick={onCounters}>
+                    ✏ {t.edit}
+                  </button>
+                </div>
               </div>
-              <span className={`badge ${c.active !== false ? '' : 'inactive'}`}>
-                {c.active !== false ? t.active : t.inactive}
-              </span>
-            </div>
-          )) : <p className="subtle">{t.noCounters}</p>}
+            ))
+          ) : (
+            <p className="subtle">{t.noDevicesInCounter}</p>
+          )}
         </div>
       </section>
     </div>
@@ -726,9 +825,18 @@ function Counters({
   activeManageTab,
   setActiveManageTab,
   loadCounters,
+  loadDevices,
   loading,
   message
 }) {
+  const allCounterIds = new Set(counters.map((c) => (c.counterId || '').trim().toUpperCase()));
+  const unassignedDevices = devices.filter((d) => !allCounterIds.has((d.counterId || '').trim().toUpperCase()));
+
+  async function handleRefresh() {
+    if (loadCounters) await loadCounters();
+    if (loadDevices) await loadDevices();
+  }
+
   return (
     <div className="pageContent">
       <div className="pageIntro">
@@ -736,6 +844,7 @@ function Counters({
         <h2>{t.counterManagement}</h2>
         <p className="subtle">{t.counterSub}</p>
       </div>
+
       {message && <p className="success" style={{ marginBottom: 16 }}>{message}</p>}
 
       <div className="contentGrid">
@@ -747,8 +856,17 @@ function Counters({
                 <p className="kicker">{t.editCounter}</p>
                 <button type="button" className="quiet" onClick={() => setEditingCounter(null)}>{t.cancel}</button>
               </div>
-              <h3>{editingCounter.counterId}</h3>
+              <h3 style={{ marginTop: 6, marginBottom: 16 }}>{editingCounter.counterName} ({editingCounter.counterId})</h3>
               <form onSubmit={updateCounter} className="form">
+                <label>
+                  {t.counterId}
+                  <input
+                    value={editingCounter.newCounterId !== undefined ? editingCounter.newCounterId : editingCounter.counterId}
+                    onChange={(e) => setEditingCounter({ ...editingCounter, newCounterId: e.target.value.toUpperCase().trim() })}
+                    required
+                  />
+                  <small style={{ color: 'var(--muted)', fontSize: 11 }}>{t.editCodeNote}</small>
+                </label>
                 <label>
                   {t.counterName}
                   <input
@@ -778,12 +896,12 @@ function Counters({
                 <p className="kicker">{t.editDevice}</p>
                 <button type="button" className="quiet" onClick={() => setEditingDevice(null)}>{t.cancel}</button>
               </div>
-              <h3>{editingDevice.deviceId}</h3>
+              <h3 style={{ marginTop: 6, marginBottom: 16 }}>{editingDevice.deviceName} ({editingDevice.deviceId})</h3>
               <form onSubmit={editDevice} className="form">
                 <label>
                   {t.selectCounter}
                   <select
-                    value={editingDevice.counterId || ''}
+                    value={editingDevice.counterId || (counters[0]?.counterId || 'C1')}
                     onChange={(e) => setEditingDevice({ ...editingDevice, counterId: e.target.value })}
                     required
                   >
@@ -793,6 +911,15 @@ function Counters({
                       </option>
                     ))}
                   </select>
+                </label>
+                <label>
+                  {t.deviceId}
+                  <input
+                    value={editingDevice.newDeviceId !== undefined ? editingDevice.newDeviceId : editingDevice.deviceId}
+                    onChange={(e) => setEditingDevice({ ...editingDevice, newDeviceId: e.target.value.toUpperCase().trim() })}
+                    required
+                  />
+                  <small style={{ color: 'var(--muted)', fontSize: 11 }}>{t.editDeviceNote}</small>
                 </label>
                 <label>
                   {t.deviceName}
@@ -849,7 +976,7 @@ function Counters({
                       <input
                         value={counterId}
                         onChange={(e) => setCounterId(e.target.value.toUpperCase())}
-                        placeholder="e.g. C1"
+                        placeholder="e.g. C1 or Counter 1"
                         required
                       />
                     </label>
@@ -858,7 +985,7 @@ function Counters({
                       <input
                         value={counterName}
                         onChange={(e) => setCounterName(e.target.value)}
-                        placeholder="e.g. काउन्टर १ (Counter 1)"
+                        placeholder="e.g. काउन्टर १ / Counter 1"
                         required
                       />
                     </label>
@@ -889,7 +1016,7 @@ function Counters({
                       <input
                         value={deviceId}
                         onChange={(e) => setDeviceId(e.target.value.toUpperCase())}
-                        placeholder="e.g. DEV001"
+                        placeholder="e.g. DEV001 or POS-1"
                         required
                       />
                     </label>
@@ -917,11 +1044,15 @@ function Counters({
               <p className="kicker">{t.activeCounterList}</p>
               <h3>{t.counters}</h3>
             </div>
-            <button className="quiet" onClick={loadCounters}>{t.refresh}</button>
+            <button className="quiet" onClick={handleRefresh}>{t.refresh}</button>
           </div>
 
           {counters.length ? counters.map((cnt) => {
-            const cntDevices = cnt.devices || devices.filter((d) => (d.counterId || 'C1') === cnt.counterId);
+            const cleanCId = (cnt.counterId || '').trim().toUpperCase();
+            const cntDevices = (cnt.devices && cnt.devices.length > 0)
+              ? cnt.devices
+              : devices.filter((d) => (d.counterId || '').trim().toUpperCase() === cleanCId);
+
             return (
               <div className="counterCard" key={cnt.counterId}>
                 <div className="counterCardHeader">
@@ -954,7 +1085,7 @@ function Counters({
                       type="button"
                       className="quiet small"
                       onClick={() => {
-                        setEditingCounter({ ...cnt });
+                        setEditingCounter({ ...cnt, newCounterId: cnt.counterId });
                         setEditingDevice(null);
                       }}
                     >
@@ -991,18 +1122,18 @@ function Counters({
                           type="button"
                           className="quiet small"
                           onClick={() => {
-                            setEditingDevice({ ...dev, counterId: dev.counterId || cnt.counterId });
+                            setEditingDevice({ ...dev, newDeviceId: dev.deviceId, counterId: dev.counterId || cnt.counterId });
                             setEditingCounter(null);
                           }}
                         >
-                          ✏
+                          ✏ {t.edit}
                         </button>
                         <button
                           type="button"
                           className="quiet small dangerBtn"
                           onClick={() => deleteDevice(dev)}
                         >
-                          ✕
+                          ✕ {t.delete}
                         </button>
                       </div>
                     </div>
@@ -1013,6 +1144,54 @@ function Counters({
               </div>
             );
           }) : <p className="subtle">{t.noCounters}</p>}
+
+          {/* Unassigned Devices Section (if any devices have no valid counter) */}
+          {unassignedDevices.length > 0 && (
+            <div className="counterCard" style={{ borderColor: '#f4c7c3', background: '#fdf7f7' }}>
+              <div className="counterCardHeader">
+                <div>
+                  <strong style={{ fontSize: 16, color: '#8e4438' }}>{t.unassignedDevices}</strong>
+                  <span className="subtle" style={{ fontSize: 12, display: 'block', marginTop: 2 }}>
+                    {unassignedDevices.length} {t.devices}
+                  </span>
+                </div>
+              </div>
+              <div className="subDeviceList" style={{ background: '#fff' }}>
+                {unassignedDevices.map((dev) => (
+                  <div className="subDeviceRow" key={dev.deviceId}>
+                    <div>
+                      <strong>{dev.deviceName}</strong>
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 2 }}>
+                        <span className="codeTag" style={{ fontSize: 10 }}>{dev.deviceId}</span>
+                        <span className="subtle" style={{ fontSize: 11 }}>
+                          (ID: {dev.counterId || 'none'})
+                        </span>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                      <button
+                        type="button"
+                        className="quiet small"
+                        onClick={() => {
+                          setEditingDevice({ ...dev, newDeviceId: dev.deviceId, counterId: counters[0]?.counterId || 'C1' });
+                          setEditingCounter(null);
+                        }}
+                      >
+                        ✏ {t.reassignCounter}
+                      </button>
+                      <button
+                        type="button"
+                        className="quiet small dangerBtn"
+                        onClick={() => deleteDevice(dev)}
+                      >
+                        ✕ {t.delete}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </section>
       </div>
     </div>
