@@ -119,7 +119,7 @@ export default function Home() {
         setCounters(body.counters || []);
         if (body.allDevices) setDevices(body.allDevices);
       }
-    } catch {}
+    } catch { }
   }
 
   async function loadDevices() {
@@ -129,7 +129,7 @@ export default function Home() {
       });
       const body = await response.json();
       if (response.ok) setDevices(body.devices || []);
-    } catch {}
+    } catch { }
   }
 
   async function loadServices() {
@@ -139,7 +139,7 @@ export default function Home() {
       });
       const body = await response.json();
       if (response.ok && body.services) setServices(body.services);
-    } catch {}
+    } catch { }
   }
 
   async function loadUsers() {
@@ -149,7 +149,7 @@ export default function Home() {
       });
       const body = await response.json();
       if (response.ok) setUsers(body.users || []);
-    } catch {}
+    } catch { }
   }
 
   function handleDateFilter(newDate) {

@@ -8,6 +8,12 @@ async function request(url, options = {}) {
     const body = await response.json().catch(() => ({}));
     if (!response.ok || body.success === false) throw new Error(body.message || `Request failed (${response.status})`);
     return body;
+  } catch (error) {
+    const msg = error.message || '';
+    if (error.name === 'AbortError' || msg.includes('Network') || msg.includes('fetch')) {
+      throw new Error('इन्टरनेट जडान छैन। लगइन गर्न इन्टरनेट चाहिन्छ। (Offline)');
+    }
+    throw error;
   } finally {
     clearTimeout(timeout);
   }

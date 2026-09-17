@@ -138,10 +138,10 @@ export default function App() {
     const currentSequence = Number(await getSetting(sequenceKey) || 0);
     const nextSequence = currentSequence + 1;
 
-    // Globally unique receipt number: PREFIX-NEPALI_DATE-TIME-SEQUENCE
-    // Example: USER1-20810528-153407-00006
+    // Globally unique receipt number: PREFIX-NEPALI_DATE-SEQUENCE
+    // Example: USER1-830601-00006
     const prefix = (settings.username || settings.device_id || 'RCT').toUpperCase().trim();
-    const uniqueReceiptNo = `${prefix}-${receiptDetails.dateKeyCompact}-${receiptDetails.timeCompact}-${String(nextSequence).padStart(5, '0')}`;
+    const uniqueReceiptNo = `${prefix}-${receiptDetails.dateKeyCompact}-${String(nextSequence).padStart(5, '0')}`;
 
     const transaction = {
       localId: Crypto.randomUUID(),
