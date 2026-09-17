@@ -24,12 +24,15 @@ async function changePassword(req, res) {
   return sendSuccess(res, { message: 'Password changed successfully' });
 }
 
+const { getLatestSequence } = require('../services/syncService');
+
 async function userLogin(req, res) {
   const { username, password } = req.body || {};
   const user = await User.findOne({ username: username?.trim().toLowerCase(), active: true }).select('+passwordHash');
   if (!user || !(await bcrypt.compare(password || '', user.passwordHash))) return sendError(res, 'Invalid username or password', 'INVALID_CREDENTIALS', 401);
   const token = jwt.sign({ sub: user.id, username: user.username, role: 'user', displayName: user.displayName }, env.jwtSecret, { expiresIn: env.jwtExpiresIn });
-  return sendSuccess(res, { token, user: { id: user.id, username: user.username, displayName: user.displayName } });
+  const latestSequence = await getLatestSequence({ username: user.username });
+  return sendSuccess(res, { token, user: { id: user.id, username: user.username, displayName: user.displayName }, latestSequence });
 }
 
 async function createUser(req, res) {

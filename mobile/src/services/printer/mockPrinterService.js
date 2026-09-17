@@ -16,7 +16,7 @@ function receiptHtml(transaction) {
   </style></head><body>
     <div class="header">${escapeHtml(transaction.templeName)}<br>रंगेली नगरपालिका-७, मोरङ<br>सहयोगार्थ रसिद</div>
     <div class="rule"></div>
-    <div class="details">मिति: ${escapeHtml(transaction.nepaliDate)}<br>रसिद नं: ${escapeHtml(transaction.receiptNumber || transaction.tokenNumber)}<br>समय: ${escapeHtml(transaction.tokenTime)}<br>सेवा: ${escapeHtml(transaction.serviceName)}${transaction.itemName ? `<br>वस्तु: ${escapeHtml(transaction.itemName)}` : ''}<br>रकम: रु ${escapeHtml(transaction.amount)}${transaction.userName ? `<br>प्रयोगकर्ता: ${escapeHtml(transaction.userName)}` : ''}</div>
+    <div class="details">मिति: ${escapeHtml(transaction.nepaliDate)}<br>रसिद नं: ${escapeHtml(transaction.receiptNumber || transaction.tokenNumber)}<br>समय: ${escapeHtml(transaction.tokenTime)}${transaction.counterName ? `<br>काउन्टर: ${escapeHtml(transaction.counterName)}` : ''}${transaction.deviceId ? `<br>उपकरण: ${escapeHtml(transaction.deviceId)}` : ''}<br>सेवा: ${escapeHtml(transaction.serviceName)}${transaction.itemName ? `<br>वस्तु: ${escapeHtml(transaction.itemName)}` : ''}<br>रकम: रु ${escapeHtml(transaction.amount)}${transaction.userName ? `<br>सञ्चालक: ${escapeHtml(transaction.userName)}` : ''}</div>
     <div class="rule"></div>
     <div class="footer">श्री संसारी माई माताको कृपा सधैँ तपाईँमाथि रहोस्।</div>
   </body></html>`;

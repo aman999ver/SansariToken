@@ -18,6 +18,9 @@ export async function initializeDatabase() {
     CREATE TABLE IF NOT EXISTS transactions (
       local_id TEXT PRIMARY KEY NOT NULL,
       device_id TEXT NOT NULL,
+      counter_id TEXT NOT NULL DEFAULT '',
+      counter_name TEXT NOT NULL DEFAULT '',
+      sequence INTEGER NOT NULL DEFAULT 0,
       token_number TEXT NOT NULL UNIQUE,
       receipt_number TEXT NOT NULL DEFAULT '',
       temple_name TEXT NOT NULL DEFAULT '',
@@ -43,6 +46,9 @@ export async function initializeDatabase() {
   try { await database.execAsync("ALTER TABLE transactions ADD COLUMN user_name TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
   try { await database.execAsync("ALTER TABLE transactions ADD COLUMN nepali_date TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
   try { await database.execAsync("ALTER TABLE transactions ADD COLUMN token_time TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
+  try { await database.execAsync("ALTER TABLE transactions ADD COLUMN counter_id TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
+  try { await database.execAsync("ALTER TABLE transactions ADD COLUMN counter_name TEXT NOT NULL DEFAULT ''"); } catch { /* Existing databases already have this column. */ }
+  try { await database.execAsync("ALTER TABLE transactions ADD COLUMN sequence INTEGER NOT NULL DEFAULT 0"); } catch { /* Existing databases already have this column. */ }
   return database;
 }
 
@@ -61,10 +67,13 @@ export async function createTransaction(transaction) {
   const database = await getDatabase();
   await database.runAsync(
     `INSERT INTO transactions
-      (local_id, device_id, token_number, receipt_number, temple_name, user_name, nepali_date, token_time, service_id, service_name, item_name, amount, payment_method, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      (local_id, device_id, counter_id, counter_name, sequence, token_number, receipt_number, temple_name, user_name, nepali_date, token_time, service_id, service_name, item_name, amount, payment_method, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     transaction.localId,
     transaction.deviceId,
+    transaction.counterId || '',
+    transaction.counterName || '',
+    transaction.sequence || 0,
     transaction.tokenNumber,
     transaction.receiptNumber,
     transaction.templeName,

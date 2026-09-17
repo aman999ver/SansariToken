@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const transactionSchema = new mongoose.Schema({
   localId: { type: String, required: true, trim: true },
   deviceId: { type: String, required: true, trim: true },
+  counterId: { type: String, default: '', trim: true },
+  counterName: { type: String, default: '', trim: true },
+  sequence: { type: Number, default: 0 },
   tokenNumber: { type: String, required: true, trim: true },
   receiptNumber: { type: String, default: '', trim: true },
   templeName: { type: String, required: true, trim: true },
@@ -23,6 +26,8 @@ transactionSchema.index({ deviceId: 1, localId: 1 }, { unique: true });
 transactionSchema.index({ createdAtDevice: -1 });
 transactionSchema.index({ nepaliDate: 1, createdAtDevice: -1 });
 transactionSchema.index({ deviceId: 1, createdAtDevice: -1 });
+transactionSchema.index({ counterId: 1, createdAtDevice: -1 });
+transactionSchema.index({ userName: 1, createdAtDevice: -1 });
 transactionSchema.index({ serviceId: 1, createdAtDevice: -1 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);

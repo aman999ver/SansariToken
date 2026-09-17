@@ -15,12 +15,30 @@ async function request(url, options = {}) {
 
 export async function fetchAvailableDevices(apiUrl) {
   const response = await request(`${apiUrl}/api/devices/available`);
-  return response.devices || [];
+  return {
+    counters: response.counters || [],
+    devices: response.devices || []
+  };
 }
 
 export async function loginUser(apiUrl, username, password) {
   const response = await request(`${apiUrl}/api/auth/user-login`, { method: 'POST', body: JSON.stringify({ username, password }) });
-  return response.user;
+  return {
+    ...response.user,
+    latestSequence: response.latestSequence || 0
+  };
+}
+
+export async function fetchLatestSequence(apiUrl, { username, deviceId }) {
+  try {
+    const params = new URLSearchParams();
+    if (username) params.set('username', username);
+    if (deviceId) params.set('deviceId', deviceId);
+    const response = await request(`${apiUrl}/api/sync/sequence?${params.toString()}`);
+    return response.latestSequence || 0;
+  } catch {
+    return 0;
+  }
 }
 
 export async function fetchServices(apiUrl) {
@@ -36,6 +54,9 @@ function toApiTransaction(transaction) {
   return {
     localId: transaction.local_id,
     deviceId: transaction.device_id,
+    counterId: transaction.counter_id || '',
+    counterName: transaction.counter_name || '',
+    sequence: transaction.sequence || 0,
     tokenNumber: transaction.token_number,
     receiptNumber: transaction.receipt_number,
     templeName: transaction.temple_name,

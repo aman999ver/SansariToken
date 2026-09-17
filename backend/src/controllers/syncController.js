@@ -1,5 +1,5 @@
 const { syncSchema } = require('../utils/validation');
-const { syncTransactions } = require('../services/syncService');
+const { syncTransactions, getLatestSequence } = require('../services/syncService');
 const { sendSuccess } = require('../utils/apiResponse');
 
 async function sync(req, res) {
@@ -7,4 +7,11 @@ async function sync(req, res) {
   return sendSuccess(res, await syncTransactions(input.deviceId, input.transactions));
 }
 
-module.exports = { sync };
+async function sequence(req, res) {
+  const username = req.query.username || '';
+  const deviceId = req.query.deviceId || '';
+  const latestSequence = await getLatestSequence({ username, deviceId });
+  return sendSuccess(res, { latestSequence });
+}
+
+module.exports = { sync, sequence };

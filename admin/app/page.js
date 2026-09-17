@@ -7,14 +7,14 @@ const TEMPLE_NAME = 'श्री संसारी माई मन्दि�
 
 const text = {
   en: {
-    users: 'Users', userManagement: 'User management', userSub: 'Create and manage accounts for counter operators.', displayName: 'Display name', createUser: 'Create user', editUser: 'Edit user', updateUser: 'Update user', cancel: 'Cancel', status: 'Status', userList: 'Operator accounts', noUsers: 'No users created yet.', userUpdated: 'User updated successfully.', userDeleted: 'User deleted.', edit: 'Edit', delete: 'Delete', active: 'Active', inactive: 'Inactive', confirmDeleteUser: 'Are you sure you want to delete this user?', confirmDeleteCounter: 'Are you sure you want to delete this counter?',
-    admin: 'ADMIN CONSOLE', loginSub: 'Manage counters, services, and collections', username: 'Username', password: 'Password', optionalPassword: 'New password (leave blank to keep current)', login: 'Sign in', signingIn: 'Signing in...', dashboard: 'Dashboard', counters: 'Counters', transactions: 'Transactions', security: 'Security', logout: 'Sign out', overview: 'Overview', overviewSub: 'A clear view of your collection operation.', activeCounters: 'Active counters', counterManagement: 'Counter management', counterSub: 'Add the counters that POS devices can select during first-time setup.', addCounter: 'Add counter', editCounter: 'Edit counter', deviceId: 'Device ID', counterName: 'Counter name', saveCounter: 'Save counter', updateCounter: 'Update counter', activeCounterList: 'Active counter list', refresh: 'Refresh', noCounters: 'No counters have been added yet.', counterDeleted: 'Counter deleted.', counterUpdated: 'Counter updated.', passwordChange: 'Change password', passwordSub: 'Keep your administrator account protected.', currentPassword: 'Current password', newPassword: 'New password', confirmPassword: 'Confirm new password', savePassword: 'Update password', language: 'Language', nepali: 'नेपाली', english: 'English', added: 'Saved successfully.', changed: 'Password changed successfully.', mismatch: 'New passwords do not match.', loginFailed: 'Login failed.', error: 'Something went wrong.', filterDate: 'Filter date (Nepali / ISO)', clear: 'Clear', token: 'Receipt #', date: 'Nepali date', time: 'Time', service: 'Service', amount: 'Amount', noTransactions: 'No transactions found.',
-    allCounters: 'All counters', allUsers: 'All operators', allServices: 'All services', filterCounter: 'Counter', filterUser: 'Operator', filterService: 'Service', applyFilter: 'Filter', pagination: 'Pagination', page: 'Page', of: 'of', prev: 'Previous', next: 'Next', perPage: 'Per page', totalReceipts: 'Total receipts', totalCollection: 'Total collection', serviceBreakdown: 'Service-wise collection breakdown', receiptsGenerated: 'Receipts count', collectionAmount: 'Total amount', operator: 'Operator', paymentMethod: 'Payment', share: 'Share'
+    users: 'Users', userManagement: 'User management', userSub: 'Create and manage accounts for counter operators.', displayName: 'Display name', createUser: 'Create user', editUser: 'Edit user', updateUser: 'Update user', cancel: 'Cancel', status: 'Status', userList: 'Operator accounts', noUsers: 'No users created yet.', userUpdated: 'User updated successfully.', userDeleted: 'User deleted.', edit: 'Edit', delete: 'Delete', active: 'Active', inactive: 'Inactive', confirmDeleteUser: 'Are you sure you want to delete this user?', confirmDeleteCounter: 'Are you sure you want to delete this counter?', confirmDeleteDevice: 'Are you sure you want to delete this device?',
+    admin: 'ADMIN CONSOLE', loginSub: 'Manage counters, services, and collections', username: 'Username', password: 'Password', optionalPassword: 'New password (leave blank to keep current)', login: 'Sign in', signingIn: 'Signing in...', dashboard: 'Dashboard', counters: 'Counters', transactions: 'Transactions', security: 'Security', logout: 'Sign out', overview: 'Overview', overviewSub: 'A clear view of your collection operation.', activeCounters: 'Active counters', counterManagement: 'Counter & device management', counterSub: 'Manage counters and assign multiple POS devices to each counter.', addCounter: 'Add counter', editCounter: 'Edit counter', counterId: 'Counter ID / Code', counterName: 'Counter name', saveCounter: 'Save counter', updateCounter: 'Update counter', addDevice: 'Add POS device', editDevice: 'Edit device', deviceId: 'Device ID', deviceName: 'Device name', saveDevice: 'Save device', updateDevice: 'Update device', selectCounter: 'Assigned counter', assignedDevices: 'Assigned devices', noDevicesInCounter: 'No devices assigned to this counter yet.', totalCounters: 'Total counters', totalDevices: 'Total devices', activeCounterList: 'Counters & Assigned Devices', refresh: 'Refresh', noCounters: 'No counters have been added yet.', counterDeleted: 'Counter deleted.', counterUpdated: 'Counter updated.', deviceDeleted: 'Device deleted.', deviceUpdated: 'Device updated.', deviceAdded: 'Device added successfully.', passwordChange: 'Change password', passwordSub: 'Keep your administrator account protected.', currentPassword: 'Current password', newPassword: 'New password', confirmPassword: 'Confirm new password', savePassword: 'Update password', language: 'Language', nepali: 'नेपाली', english: 'English', added: 'Saved successfully.', changed: 'Password changed successfully.', mismatch: 'New passwords do not match.', loginFailed: 'Login failed.', error: 'Something went wrong.', filterDate: 'Filter date (Nepali / ISO)', clear: 'Clear', token: 'Receipt #', date: 'Nepali date', time: 'Time', service: 'Service', amount: 'Amount', noTransactions: 'No transactions found.',
+    allCounters: 'All counters', allDevices: 'All devices', allUsers: 'All operators', allServices: 'All services', filterCounter: 'Counter', filterDevice: 'Device', filterUser: 'Operator', filterService: 'Service', applyFilter: 'Filter', pagination: 'Pagination', page: 'Page', of: 'of', prev: 'Previous', next: 'Next', perPage: 'Per page', totalReceipts: 'Total receipts', totalCollection: 'Total collection', serviceBreakdown: 'Service-wise collection breakdown', receiptsGenerated: 'Receipts count', collectionAmount: 'Total amount', operator: 'Operator', paymentMethod: 'Payment', share: 'Share'
   },
   ne: {
-    users: 'प्रयोगकर्ता', userManagement: 'प्रयोगकर्ता व्यवस्थापन', userSub: 'काउन्टर सञ्चालकका खाताहरू सिर्जना र व्यवस्थापन गर्नुहोस्।', displayName: 'देखिने नाम', createUser: 'प्रयोगकर्ता बनाउनुहोस्', editUser: 'प्रयोगकर्ता सम्पादन', updateUser: 'विवरण अद्यावधिक गर्नुहोस्', cancel: 'रद्द गर्नुहोस्', status: 'स्थिति', userList: 'सञ्चालक खाताहरू', noUsers: 'अहिलेसम्म प्रयोगकर्ता बनेका छैनन्।', userUpdated: 'प्रयोगकर्ता विवरण अद्यावधिक भयो।', userDeleted: 'प्रयोगकर्ता हटाइयो।', edit: 'सम्पादन', delete: 'हटाउनुहोस्', active: 'सक्रिय', inactive: 'निष्क्रिय', confirmDeleteUser: 'यो प्रयोगकर्ता हटाउने हो?', confirmDeleteCounter: 'यो काउन्टर हटाउने हो?',
-    admin: 'प्रशासन कक्ष', loginSub: 'काउन्टर, सेवा र संकलन व्यवस्थापन', username: 'प्रयोगकर्ता नाम', password: 'पासवर्ड', optionalPassword: 'नयाँ पासवर्ड (परिवर्तन नगर्ने भए खाली छोड्नुहोस्)', login: 'प्रवेश गर्नुहोस्', signingIn: 'प्रवेश हुँदैछ...', dashboard: 'ड्यासबोर्ड', counters: 'काउन्टर', transactions: 'लेनदेन', security: 'सुरक्षा', logout: 'बाहिर निस्कनुहोस्', overview: 'अवलोकन', overviewSub: 'तपाईंको संकलन सञ्चालनको स्पष्ट विवरण।', activeCounters: 'सक्रिय काउन्टर', counterManagement: 'काउन्टर व्यवस्थापन', counterSub: 'POS उपकरणले पहिलो सेटअपमा चयन गर्ने काउन्टर थप्नुहोस्।', addCounter: 'काउन्टर थप्नुहोस्', editCounter: 'काउन्टर सम्पादन', deviceId: 'उपकरण ID', counterName: 'काउन्टरको नाम', saveCounter: 'काउन्टर सुरक्षित गर्नुहोस्', updateCounter: 'काउन्टर अद्यावधिक गर्नुहोस्', activeCounterList: 'सक्रिय काउन्टर सूची', refresh: 'रिफ्रेस', noCounters: 'अहिलेसम्म कुनै काउन्टर थपिएको छैन।', counterDeleted: 'काउन्टर हटाइयो।', counterUpdated: 'काउन्टर अद्यावधिक भयो।', passwordChange: 'पासवर्ड परिवर्तन', passwordSub: 'तपाईंको प्रशासनिक खाता सुरक्षित राख्नुहोस्।', currentPassword: 'हालको पासवर्ड', newPassword: 'नयाँ पासवर्ड', confirmPassword: 'नयाँ पासवर्ड फेरि', savePassword: 'पासवर्ड सुरक्षित गर्नुहोस्', language: 'भाषा', nepali: 'नेपाली', english: 'English', added: 'सफलतापूर्वक सुरक्षित भयो।', changed: 'पासवर्ड परिवर्तन भयो।', mismatch: 'नयाँ पासवर्ड मिलेन।', loginFailed: 'प्रवेश असफल भयो।', error: 'केही समस्या भयो।', filterDate: 'मिति छान्नुहोस् (नेपाली / अंग्रेजी)', clear: 'हटाउनुहोस्', token: 'रसिद नं.', date: 'नेपाली मिति', time: 'समय', service: 'सेवा', amount: 'रकम', noTransactions: 'कुनै लेनदेन भेटिएन।',
-    allCounters: 'सबै काउन्टर', allUsers: 'सबै सञ्चालक', allServices: 'सबै सेवाहरू', filterCounter: 'काउन्टर', filterUser: 'सञ्चालक', filterService: 'सेवा', applyFilter: 'खोज्नुहोस्', pagination: 'पृष्ठ चयन', page: 'पृष्ठ', of: '/', prev: 'अघिल्लो', next: 'पछिल्लो', perPage: 'प्रति पृष्ठ', totalReceipts: 'कुल जारी रसिद', totalCollection: 'कुल संकलित रकम', serviceBreakdown: 'सेवा अनुसार संकलन विवरण', receiptsGenerated: 'रसिद सङ्ख्या', collectionAmount: 'संकलित रकम', operator: 'सञ्चालक', paymentMethod: 'भुक्तानी विधि', share: 'प्रतिशत'
+    users: 'प्रयोगकर्ता', userManagement: 'प्रयोगकर्ता व्यवस्थापन', userSub: 'काउन्टर सञ्चालकका खाताहरू सिर्जना र व्यवस्थापन गर्नुहोस्।', displayName: 'देखिने नाम', createUser: 'प्रयोगकर्ता बनाउनुहोस्', editUser: 'प्रयोगकर्ता सम्पादन', updateUser: 'विवरण अद्यावधिक गर्नुहोस्', cancel: 'रद्द गर्नुहोस्', status: 'स्थिति', userList: 'सञ्चालक खाताहरू', noUsers: 'अहिलेसम्म प्रयोगकर्ता बनेका छैनन्।', userUpdated: 'प्रयोगकर्ता विवरण अद्यावधिक भयो।', userDeleted: 'प्रयोगकर्ता हटाइयो।', edit: 'सम्पादन', delete: 'हटाउनुहोस्', active: 'सक्रिय', inactive: 'निष्क्रिय', confirmDeleteUser: 'यो प्रयोगकर्ता हटाउने हो?', confirmDeleteCounter: 'यो काउन्टर हटाउने हो?', confirmDeleteDevice: 'यो उपकरण हटाउने हो?',
+    admin: 'प्रशासन कक्ष', loginSub: 'काउन्टर, सेवा र संकलन व्यवस्थापन', username: 'प्रयोगकर्ता नाम', password: 'पासवर्ड', optionalPassword: 'नयाँ पासवर्ड (परिवर्तन नगर्ने भए खाली छोड्नुहोस्)', login: 'प्रवेश गर्नुहोस्', signingIn: 'प्रवेश हुँदैछ...', dashboard: 'ड्यासबोर्ड', counters: 'काउन्टर', transactions: 'लेनदेन', security: 'सुरक्षा', logout: 'बाहिर निस्कनुहोस्', overview: 'अवलोकन', overviewSub: 'तपाईंको संकलन सञ्चालनको स्पष्ट विवरण।', activeCounters: 'सक्रिय काउन्टर', counterManagement: 'काउन्टर र उपकरण व्यवस्थापन', counterSub: 'काउन्टरहरू व्यवस्थापन गर्नुहोस् र एउटै काउन्टरमा धेरै POS उपकरणहरू थप्नुहोस्।', addCounter: 'काउन्टर थप्नुहोस्', editCounter: 'काउन्टर सम्पादन', counterId: 'काउन्टर ID / कोड', counterName: 'काउन्टरको नाम', saveCounter: 'काउन्टर सुरक्षित गर्नुहोस्', updateCounter: 'काउन्टर अद्यावधिक गर्नुहोस्', addDevice: 'उपकरण थप्नुहोस्', editDevice: 'उपकरण सम्पादन', deviceId: 'उपकरण ID', deviceName: 'उपकरणको नाम', saveDevice: 'उपकरण सुरक्षित गर्नुहोस्', updateDevice: 'उपकरण अद्यावधिक गर्नुहोस्', selectCounter: 'तोकिएको काउन्टर', assignedDevices: 'तोकिएका उपकरणहरू', noDevicesInCounter: 'यो काउन्टरमा कुनै उपकरण थपिएको छैन।', totalCounters: 'कुल काउन्टर', totalDevices: 'कुल उपकरण', activeCounterList: 'काउन्टर र तोकिएका उपकरणहरू', refresh: 'रिफ्रेस', noCounters: 'अहिलेसम्म कुनै काउन्टर थपिएको छैन।', counterDeleted: 'काउन्टर हटाइयो।', counterUpdated: 'काउन्टर अद्यावधिक भयो।', deviceDeleted: 'उपकरण हटाइयो।', deviceUpdated: 'उपकरण अद्यावधिक भयो।', deviceAdded: 'उपकरण सफलतापूर्वक थपियो।', passwordChange: 'पासवर्ड परिवर्तन', passwordSub: 'तपाईंको प्रशासनिक खाता सुरक्षित राख्नुहोस्।', currentPassword: 'हालको पासवर्ड', newPassword: 'नयाँ पासवर्ड', confirmPassword: 'नयाँ पासवर्ड फेरि', savePassword: 'पासवर्ड सुरक्षित गर्नुहोस्', language: 'भाषा', nepali: 'नेपाली', english: 'English', added: 'सफलतापूर्वक सुरक्षित भयो।', changed: 'पासवर्ड परिवर्तन भयो।', mismatch: 'नयाँ पासवर्ड मिलेन।', loginFailed: 'प्रवेश असफल भयो।', error: 'केही समस्या भयो।', filterDate: 'मिति छान्नुहोस् (नेपाली / अंग्रेजी)', clear: 'हटाउनुहोस्', token: 'रसिद नं.', date: 'नेपाली मिति', time: 'समय', service: 'सेवा', amount: 'रकम', noTransactions: 'कुनै लेनदेन भेटिएन।',
+    allCounters: 'सबै काउन्टर', allDevices: 'सबै उपकरण', allUsers: 'सबै सञ्चालक', allServices: 'सबै सेवाहरू', filterCounter: 'काउन्टर', filterDevice: 'उपकरण', filterUser: 'सञ्चालक', filterService: 'सेवा', applyFilter: 'खोज्नुहोस्', pagination: 'पृष्ठ चयन', page: 'पृष्ठ', of: '/', prev: 'अघिल्लो', next: 'पछिल्लो', perPage: 'प्रति पृष्ठ', totalReceipts: 'कुल जारी रसिद', totalCollection: 'कुल संकलित रकम', serviceBreakdown: 'सेवा अनुसार संकलन विवरण', receiptsGenerated: 'रसिद सङ्ख्या', collectionAmount: 'संकलित रकम', operator: 'सञ्चालक', paymentMethod: 'भुक्तानी विधि', share: 'प्रतिशत'
   }
 };
 
@@ -24,6 +24,7 @@ export default function Home() {
   const [username, setUsername] = useState('admin');
   const [password, setPassword] = useState('');
   const [section, setSection] = useState('dashboard');
+  const [counters, setCounters] = useState([]);
   const [devices, setDevices] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [services, setServices] = useState([]);
@@ -32,10 +33,13 @@ export default function Home() {
   const [newDisplayName, setNewDisplayName] = useState('');
   const [newUserPassword, setNewUserPassword] = useState('');
   const [editingUser, setEditingUser] = useState(null);
+  const [editingCounter, setEditingCounter] = useState(null);
   const [editingDevice, setEditingDevice] = useState(null);
+  const [activeManageTab, setActiveManageTab] = useState('counter'); // 'counter' or 'device'
 
   // Filter and pagination states for transactions
   const [filterDate, setFilterDate] = useState('');
+  const [filterCounterId, setFilterCounterId] = useState('ALL');
   const [filterDeviceId, setFilterDeviceId] = useState('ALL');
   const [filterUserName, setFilterUserName] = useState('ALL');
   const [filterServiceName, setFilterServiceName] = useState('ALL');
@@ -46,8 +50,15 @@ export default function Home() {
   const txnReqIdRef = useRef(0);
   const dateDebounceRef = useRef(null);
 
+  // Form states for Counter
+  const [counterId, setCounterId] = useState('');
+  const [counterName, setCounterName] = useState('');
+
+  // Form states for Device
   const [deviceId, setDeviceId] = useState('');
   const [deviceName, setDeviceName] = useState('');
+  const [deviceCounterId, setDeviceCounterId] = useState('');
+
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -62,6 +73,7 @@ export default function Home() {
 
   useEffect(() => {
     if (token) {
+      loadCounters();
       loadDevices();
       loadUsers();
       loadServices();
@@ -93,6 +105,19 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function loadCounters() {
+    try {
+      const response = await fetch(`${API_URL}/api/counters`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const body = await response.json();
+      if (response.ok) {
+        setCounters(body.counters || []);
+        if (body.allDevices) setDevices(body.allDevices);
+      }
+    } catch {}
   }
 
   async function loadDevices() {
@@ -137,6 +162,7 @@ export default function Home() {
   async function loadTransactions(override = {}) {
     const currentReqId = ++txnReqIdRef.current;
     const activeDate = override.date !== undefined ? override.date : filterDate;
+    const activeCounter = override.counterId !== undefined ? override.counterId : filterCounterId;
     const activeDevice = override.deviceId !== undefined ? override.deviceId : filterDeviceId;
     const activeUser = override.userName !== undefined ? override.userName : filterUserName;
     const activeService = override.serviceName !== undefined ? override.serviceName : filterServiceName;
@@ -145,6 +171,7 @@ export default function Home() {
 
     const params = new URLSearchParams();
     if (activeDate && activeDate.trim()) params.set('date', activeDate.trim());
+    if (activeCounter && activeCounter !== 'ALL') params.set('counterId', activeCounter);
     if (activeDevice && activeDevice !== 'ALL') params.set('deviceId', activeDevice);
     if (activeUser && activeUser !== 'ALL') params.set('userName', activeUser);
     if (activeService && activeService !== 'ALL') params.set('serviceName', activeService);
@@ -224,21 +251,89 @@ export default function Home() {
     }
   }
 
+  async function addCounter(event) {
+    event.preventDefault();
+    setLoading(true);
+    setMessage('');
+    try {
+      const response = await fetch(`${API_URL}/api/counters`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ counterId, counterName })
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.message || t.error);
+      setCounterId('');
+      setCounterName('');
+      setMessage(t.added);
+      await loadCounters();
+    } catch (error) {
+      setMessage(error.message || t.error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function updateCounter(event) {
+    event.preventDefault();
+    if (!editingCounter) return;
+    setLoading(true);
+    setMessage('');
+    try {
+      const response = await fetch(`${API_URL}/api/counters/${editingCounter.counterId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ counterName: editingCounter.counterName, active: editingCounter.active })
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.message || t.error);
+      setEditingCounter(null);
+      setMessage(t.counterUpdated);
+      await loadCounters();
+    } catch (error) {
+      setMessage(error.message || t.error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteCounter(cnt) {
+    if (!window.confirm(t.confirmDeleteCounter)) return;
+    setLoading(true);
+    setMessage('');
+    try {
+      const response = await fetch(`${API_URL}/api/counters/${cnt.counterId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.message || t.error);
+      setMessage(t.counterDeleted);
+      await loadCounters();
+    } catch (error) {
+      setMessage(error.message || t.error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function addDevice(event) {
     event.preventDefault();
     setLoading(true);
     setMessage('');
     try {
+      const targetCounter = deviceCounterId || counters[0]?.counterId || 'C1';
       const response = await fetch(`${API_URL}/api/devices`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ deviceId, deviceName })
+        body: JSON.stringify({ deviceId, deviceName, counterId: targetCounter })
       });
       const body = await response.json();
       if (!response.ok) throw new Error(body.message || t.error);
       setDeviceId('');
       setDeviceName('');
-      setMessage(t.added);
+      setMessage(t.deviceAdded);
+      await loadCounters();
       await loadDevices();
     } catch (error) {
       setMessage(error.message || t.error);
@@ -256,12 +351,17 @@ export default function Home() {
       const response = await fetch(`${API_URL}/api/devices/${editingDevice.deviceId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ deviceName: editingDevice.deviceName, active: editingDevice.active })
+        body: JSON.stringify({
+          deviceName: editingDevice.deviceName,
+          counterId: editingDevice.counterId,
+          active: editingDevice.active
+        })
       });
       const body = await response.json();
       if (!response.ok) throw new Error(body.message || t.error);
       setEditingDevice(null);
-      setMessage(t.counterUpdated);
+      setMessage(t.deviceUpdated);
+      await loadCounters();
       await loadDevices();
     } catch (error) {
       setMessage(error.message || t.error);
@@ -271,7 +371,7 @@ export default function Home() {
   }
 
   async function deleteDevice(dev) {
-    if (!window.confirm(t.confirmDeleteCounter)) return;
+    if (!window.confirm(t.confirmDeleteDevice)) return;
     setLoading(true);
     setMessage('');
     try {
@@ -281,7 +381,8 @@ export default function Home() {
       });
       const body = await response.json();
       if (!response.ok) throw new Error(body.message || t.error);
-      setMessage(t.counterDeleted);
+      setMessage(t.deviceDeleted);
+      await loadCounters();
       await loadDevices();
     } catch (error) {
       setMessage(error.message || t.error);
@@ -395,29 +496,43 @@ export default function Home() {
             <h1>{TEMPLE_NAME}</h1>
           </div>
           <div className="headerCount">
-            <strong>{devices.length}</strong>
-            <span>{t.activeCounters}</span>
+            <strong>{counters.length}</strong>
+            <span>{t.activeCounters} ({devices.length} {t.totalDevices})</span>
           </div>
         </header>
 
         {section === 'dashboard' && (
-          <Dashboard devices={devices} t={t} onCounters={() => setSection('counters')} />
+          <Dashboard counters={counters} devices={devices} t={t} onCounters={() => setSection('counters')} />
         )}
 
         {section === 'counters' && (
           <Counters
+            counters={counters}
             devices={devices}
             t={t}
+            counterId={counterId}
+            setCounterId={setCounterId}
+            counterName={counterName}
+            setCounterName={setCounterName}
+            addCounter={addCounter}
+            editingCounter={editingCounter}
+            setEditingCounter={setEditingCounter}
+            updateCounter={updateCounter}
+            deleteCounter={deleteCounter}
             deviceId={deviceId}
             setDeviceId={setDeviceId}
             deviceName={deviceName}
             setDeviceName={setDeviceName}
+            deviceCounterId={deviceCounterId}
+            setDeviceCounterId={setDeviceCounterId}
             addDevice={addDevice}
             editingDevice={editingDevice}
             setEditingDevice={setEditingDevice}
             editDevice={editDevice}
             deleteDevice={deleteDevice}
-            loadDevices={loadDevices}
+            activeManageTab={activeManageTab}
+            setActiveManageTab={setActiveManageTab}
+            loadCounters={loadCounters}
             loading={loading}
             message={message}
           />
@@ -452,6 +567,12 @@ export default function Home() {
               setPage(1);
               loadTransactions({ date: d, page: 1 });
             }}
+            counterId={filterCounterId}
+            setCounterId={(c) => {
+              setFilterCounterId(c);
+              setPage(1);
+              loadTransactions({ counterId: c, page: 1 });
+            }}
             deviceId={filterDeviceId}
             setDeviceId={(dev) => {
               setFilterDeviceId(dev);
@@ -479,14 +600,15 @@ export default function Home() {
             setLimit={(l) => {
               setLimit(l);
               setPage(1);
-              loadTransactions({ limit: l, page: 1 });
+              loadTransactions({ page: 1, limit: l });
             }}
             pagination={pagination}
             summary={summaryData}
+            counters={counters}
             devices={devices}
             users={users}
             services={services}
-            load={() => loadTransactions()}
+            load={() => loadTransactions({ page: 1 })}
             t={t}
           />
         )}
@@ -529,7 +651,9 @@ function NavItem({ active, onClick, label, icon }) {
   );
 }
 
-function Dashboard({ devices, t, onCounters }) {
+function Dashboard({ counters = [], devices = [], t, onCounters }) {
+  const activeCountersCount = counters.filter((c) => c.active !== false).length;
+  const activeDevicesCount = devices.filter((d) => d.active !== false).length;
   return (
     <div className="pageContent">
       <div className="pageIntro">
@@ -540,12 +664,12 @@ function Dashboard({ devices, t, onCounters }) {
       <div className="metricGrid">
         <div className="metricCard accent">
           <span>{t.activeCounters}</span>
-          <strong>{devices.length}</strong>
+          <strong>{activeCountersCount}</strong>
           <button onClick={onCounters}>{t.addCounter} →</button>
         </div>
         <div className="metricCard">
-          <span>{t.activeCounterList}</span>
-          <strong>{devices.filter((device) => device.active).length}</strong>
+          <span>{t.totalDevices}</span>
+          <strong>{activeDevicesCount}</strong>
           <small>{t.active}</small>
         </div>
       </div>
@@ -557,13 +681,54 @@ function Dashboard({ devices, t, onCounters }) {
           </div>
           <button className="quiet" onClick={onCounters}>{t.counters} →</button>
         </div>
-        <DeviceRows devices={devices} t={t} />
+        <div style={{ marginTop: 14 }}>
+          {counters.length ? counters.map((c) => (
+            <div className="deviceRow" key={c.counterId}>
+              <div>
+                <strong>{c.counterName}</strong>
+                <span>{c.counterId} • {c.devices?.length || 0} {t.devices} • {c.transactionCount || 0} {t.token}</span>
+              </div>
+              <span className={`badge ${c.active !== false ? '' : 'inactive'}`}>
+                {c.active !== false ? t.active : t.inactive}
+              </span>
+            </div>
+          )) : <p className="subtle">{t.noCounters}</p>}
+        </div>
       </section>
     </div>
   );
 }
 
-function Counters({ devices, t, deviceId, setDeviceId, deviceName, setDeviceName, addDevice, editingDevice, setEditingDevice, editDevice, deleteDevice, loadDevices, loading, message }) {
+function Counters({
+  counters = [],
+  devices = [],
+  t,
+  counterId,
+  setCounterId,
+  counterName,
+  setCounterName,
+  addCounter,
+  editingCounter,
+  setEditingCounter,
+  updateCounter,
+  deleteCounter,
+  deviceId,
+  setDeviceId,
+  deviceName,
+  setDeviceName,
+  deviceCounterId,
+  setDeviceCounterId,
+  addDevice,
+  editingDevice,
+  setEditingDevice,
+  editDevice,
+  deleteDevice,
+  activeManageTab,
+  setActiveManageTab,
+  loadCounters,
+  loading,
+  message
+}) {
   return (
     <div className="pageContent">
       <div className="pageIntro">
@@ -572,18 +737,65 @@ function Counters({ devices, t, deviceId, setDeviceId, deviceName, setDeviceName
         <p className="subtle">{t.counterSub}</p>
       </div>
       {message && <p className="success" style={{ marginBottom: 16 }}>{message}</p>}
+
       <div className="contentGrid">
+        {/* Left column: Add/Edit forms */}
         <section className="panel">
-          {editingDevice ? (
+          {editingCounter ? (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <p className="kicker">{t.editCounter}</p>
+                <button type="button" className="quiet" onClick={() => setEditingCounter(null)}>{t.cancel}</button>
+              </div>
+              <h3>{editingCounter.counterId}</h3>
+              <form onSubmit={updateCounter} className="form">
+                <label>
+                  {t.counterName}
+                  <input
+                    value={editingCounter.counterName || ''}
+                    onChange={(e) => setEditingCounter({ ...editingCounter, counterName: e.target.value })}
+                    required
+                  />
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    style={{ width: 'auto' }}
+                    checked={editingCounter.active !== false}
+                    onChange={(e) => setEditingCounter({ ...editingCounter, active: e.target.checked })}
+                  />
+                  <span>{t.active}</span>
+                </label>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <button disabled={loading} style={{ flex: 1 }}>{loading ? '...' : t.updateCounter}</button>
+                  <button type="button" className="quiet" onClick={() => setEditingCounter(null)}>{t.cancel}</button>
+                </div>
+              </form>
+            </div>
+          ) : editingDevice ? (
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <p className="kicker">{t.editDevice}</p>
                 <button type="button" className="quiet" onClick={() => setEditingDevice(null)}>{t.cancel}</button>
               </div>
               <h3>{editingDevice.deviceId}</h3>
               <form onSubmit={editDevice} className="form">
                 <label>
-                  {t.counterName}
+                  {t.selectCounter}
+                  <select
+                    value={editingDevice.counterId || ''}
+                    onChange={(e) => setEditingDevice({ ...editingDevice, counterId: e.target.value })}
+                    required
+                  >
+                    {counters.map((c) => (
+                      <option key={c.counterId} value={c.counterId}>
+                        {c.counterName} ({c.counterId})
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  {t.deviceName}
                   <input
                     value={editingDevice.deviceName || ''}
                     onChange={(e) => setEditingDevice({ ...editingDevice, deviceName: e.target.value })}
@@ -600,52 +812,207 @@ function Counters({ devices, t, deviceId, setDeviceId, deviceName, setDeviceName
                   <span>{t.active}</span>
                 </label>
                 <div style={{ display: 'flex', gap: 10 }}>
-                  <button disabled={loading} style={{ flex: 1 }}>{loading ? '...' : t.updateCounter}</button>
+                  <button disabled={loading} style={{ flex: 1 }}>{loading ? '...' : t.updateDevice}</button>
                   <button type="button" className="quiet" onClick={() => setEditingDevice(null)}>{t.cancel}</button>
                 </div>
               </form>
             </div>
           ) : (
             <div>
-              <p className="kicker">{t.addCounter}</p>
-              <h3>{t.counterManagement}</h3>
-              <form onSubmit={addDevice} className="form">
-                <label>
-                  {t.deviceId}
-                  <input value={deviceId} onChange={(event) => setDeviceId(event.target.value.toUpperCase())} placeholder="DEV001" required />
-                </label>
-                <label>
-                  {t.counterName}
-                  <input value={deviceName} onChange={(event) => setDeviceName(event.target.value)} placeholder="Counter 1" required />
-                </label>
-                <button disabled={loading}>{t.saveCounter}</button>
-              </form>
+              <div className="tabBtnGroup">
+                <button
+                  type="button"
+                  className={`tabBtn ${activeManageTab === 'counter' ? 'active' : ''}`}
+                  onClick={() => setActiveManageTab('counter')}
+                >
+                  ▦ {t.addCounter}
+                </button>
+                <button
+                  type="button"
+                  className={`tabBtn ${activeManageTab === 'device' ? 'active' : ''}`}
+                  onClick={() => {
+                    setActiveManageTab('device');
+                    if (!deviceCounterId && counters.length) setDeviceCounterId(counters[0].counterId);
+                  }}
+                >
+                  📱 {t.addDevice}
+                </button>
+              </div>
+
+              {activeManageTab === 'counter' ? (
+                <div>
+                  <p className="kicker">{t.addCounter}</p>
+                  <h3>{t.counterManagement}</h3>
+                  <form onSubmit={addCounter} className="form">
+                    <label>
+                      {t.counterId}
+                      <input
+                        value={counterId}
+                        onChange={(e) => setCounterId(e.target.value.toUpperCase())}
+                        placeholder="e.g. C1"
+                        required
+                      />
+                    </label>
+                    <label>
+                      {t.counterName}
+                      <input
+                        value={counterName}
+                        onChange={(e) => setCounterName(e.target.value)}
+                        placeholder="e.g. काउन्टर १ (Counter 1)"
+                        required
+                      />
+                    </label>
+                    <button disabled={loading}>{t.saveCounter}</button>
+                  </form>
+                </div>
+              ) : (
+                <div>
+                  <p className="kicker">{t.addDevice}</p>
+                  <h3>{t.counterManagement}</h3>
+                  <form onSubmit={addDevice} className="form">
+                    <label>
+                      {t.selectCounter}
+                      <select
+                        value={deviceCounterId || (counters[0]?.counterId || 'C1')}
+                        onChange={(e) => setDeviceCounterId(e.target.value)}
+                        required
+                      >
+                        {counters.map((c) => (
+                          <option key={c.counterId} value={c.counterId}>
+                            {c.counterName} ({c.counterId})
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      {t.deviceId}
+                      <input
+                        value={deviceId}
+                        onChange={(e) => setDeviceId(e.target.value.toUpperCase())}
+                        placeholder="e.g. DEV001"
+                        required
+                      />
+                    </label>
+                    <label>
+                      {t.deviceName}
+                      <input
+                        value={deviceName}
+                        onChange={(e) => setDeviceName(e.target.value)}
+                        placeholder="e.g. POS Machine 1"
+                        required
+                      />
+                    </label>
+                    <button disabled={loading}>{t.saveDevice}</button>
+                  </form>
+                </div>
+              )}
             </div>
           )}
         </section>
+
+        {/* Right column: Hierarchical Counters & Assigned Devices */}
         <section className="panel">
           <div className="panelHead">
             <div>
               <p className="kicker">{t.activeCounterList}</p>
               <h3>{t.counters}</h3>
             </div>
-            <button className="quiet" onClick={loadDevices}>{t.refresh}</button>
+            <button className="quiet" onClick={loadCounters}>{t.refresh}</button>
           </div>
-          {devices.length ? devices.map((dev) => (
-            <div className="deviceRow" key={dev.deviceId}>
-              <div>
-                <strong>{dev.deviceName}</strong>
-                <span>{dev.deviceId}</span>
+
+          {counters.length ? counters.map((cnt) => {
+            const cntDevices = cnt.devices || devices.filter((d) => (d.counterId || 'C1') === cnt.counterId);
+            return (
+              <div className="counterCard" key={cnt.counterId}>
+                <div className="counterCardHeader">
+                  <div>
+                    <strong style={{ fontSize: 17 }}>{cnt.counterName}</strong>
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 4 }}>
+                      <span className="codeTag">{cnt.counterId}</span>
+                      <span className={`badge ${cnt.active !== false ? '' : 'inactive'}`}>
+                        {cnt.active !== false ? t.active : t.inactive}
+                      </span>
+                      <span className="subtle" style={{ fontSize: 12 }}>
+                        • {cntDevices.length} {t.devices}
+                      </span>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                    <button
+                      type="button"
+                      className="quiet small"
+                      onClick={() => {
+                        setDeviceCounterId(cnt.counterId);
+                        setActiveManageTab('device');
+                        setEditingCounter(null);
+                        setEditingDevice(null);
+                      }}
+                    >
+                      + {t.addDevice}
+                    </button>
+                    <button
+                      type="button"
+                      className="quiet small"
+                      onClick={() => {
+                        setEditingCounter({ ...cnt });
+                        setEditingDevice(null);
+                      }}
+                    >
+                      ✏ {t.edit}
+                    </button>
+                    <button
+                      type="button"
+                      className="quiet small dangerBtn"
+                      onClick={() => deleteCounter(cnt)}
+                    >
+                      ✕ {t.delete}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Nested devices list for this counter */}
+                <div className="subDeviceList">
+                  <div style={{ fontSize: 11, fontWeight: 'bold', color: 'var(--muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '.05em' }}>
+                    {t.assignedDevices} ({cntDevices.length})
+                  </div>
+                  {cntDevices.length ? cntDevices.map((dev) => (
+                    <div className="subDeviceRow" key={dev.deviceId}>
+                      <div>
+                        <strong>{dev.deviceName}</strong>
+                        <div style={{ display: 'flex', gap: 6, alignItems: 'center', marginTop: 2 }}>
+                          <span className="codeTag" style={{ fontSize: 10 }}>{dev.deviceId}</span>
+                          <span className={`badge ${dev.active !== false ? '' : 'inactive'}`} style={{ fontSize: 10, padding: '2px 6px' }}>
+                            {dev.active !== false ? t.active : t.inactive}
+                          </span>
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                        <button
+                          type="button"
+                          className="quiet small"
+                          onClick={() => {
+                            setEditingDevice({ ...dev, counterId: dev.counterId || cnt.counterId });
+                            setEditingCounter(null);
+                          }}
+                        >
+                          ✏
+                        </button>
+                        <button
+                          type="button"
+                          className="quiet small dangerBtn"
+                          onClick={() => deleteDevice(dev)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+                  )) : (
+                    <p className="subtle" style={{ margin: 0, fontSize: 12 }}>{t.noDevicesInCounter}</p>
+                  )}
+                </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span className={`badge ${dev.active !== false ? '' : 'inactive'}`}>
-                  {dev.active !== false ? t.active : t.inactive}
-                </span>
-                <button type="button" className="quiet small" onClick={() => setEditingDevice({ ...dev })}>✏ {t.edit}</button>
-                <button type="button" className="quiet small dangerBtn" onClick={() => deleteDevice(dev)}>✕ {t.delete}</button>
-              </div>
-            </div>
-          )) : <p className="subtle">{t.noCounters}</p>}
+            );
+          }) : <p className="subtle">{t.noCounters}</p>}
         </section>
       </div>
     </div>
@@ -823,6 +1190,8 @@ function Transactions({
   rows,
   date,
   setDate,
+  counterId,
+  setCounterId,
   deviceId,
   setDeviceId,
   userName,
@@ -835,6 +1204,7 @@ function Transactions({
   setLimit,
   pagination,
   summary,
+  counters,
   devices,
   users,
   services,
@@ -894,9 +1264,21 @@ function Transactions({
 
           <label>
             {t.filterCounter}
-            <select value={deviceId} onChange={(event) => setDeviceId(event.target.value)}>
+            <select value={counterId} onChange={(event) => setCounterId(event.target.value)}>
               <option value="ALL">{t.allCounters}</option>
-              {devices.map((dev) => (
+              {(counters || []).map((cnt) => (
+                <option key={cnt.counterId} value={cnt.counterId}>
+                  {cnt.counterName} ({cnt.counterId})
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            {t.filterDevice}
+            <select value={deviceId} onChange={(event) => setDeviceId(event.target.value)}>
+              <option value="ALL">{t.allDevices}</option>
+              {(devices || []).map((dev) => (
                 <option key={dev.deviceId} value={dev.deviceId}>
                   {dev.deviceId} ({dev.deviceName})
                 </option>
@@ -935,6 +1317,7 @@ function Transactions({
               className="quiet"
               onClick={() => {
                 setDate('');
+                setCounterId('ALL');
                 setDeviceId('ALL');
                 setUserName('ALL');
                 setServiceName('ALL');
@@ -945,7 +1328,6 @@ function Transactions({
           </div>
         </div>
 
-        {/* Detailed Transactions Table */}
         <div className="tableWrap">
           <table>
             <thead>
@@ -954,6 +1336,7 @@ function Transactions({
                 <th>{t.date}</th>
                 <th>{t.time}</th>
                 <th>{t.filterCounter}</th>
+                <th>{t.filterDevice}</th>
                 <th>{t.operator}</th>
                 <th>{t.service}</th>
                 <th>{t.paymentMethod}</th>
@@ -967,6 +1350,7 @@ function Transactions({
                     <td><strong>{row.receiptNumber || row.tokenNumber}</strong></td>
                     <td>{row.nepaliDate || '-'}</td>
                     <td>{row.tokenTime || '-'}</td>
+                    <td>{row.counterName ? <span>{row.counterName}</span> : <span className="codeTag">{row.counterId || '-'}</span>}</td>
                     <td><span className="codeTag">{row.deviceId}</span></td>
                     <td>{row.userName || '-'}</td>
                     <td>
@@ -981,7 +1365,7 @@ function Transactions({
                 ))
               ) : (
                 <tr>
-                  <td colSpan="8" className="empty">{t.noTransactions}</td>
+                  <td colSpan="9" className="empty">{t.noTransactions}</td>
                 </tr>
               )}
             </tbody>

@@ -4,6 +4,9 @@ const objectId = z.string().regex(/^[a-f\d]{24}$/i, 'Invalid identifier');
 const transactionSchema = z.object({
   localId: z.string().uuid(),
   deviceId: z.string().trim().min(1).max(64),
+  counterId: z.string().trim().max(64).optional().default(''),
+  counterName: z.string().trim().max(200).optional().default(''),
+  sequence: z.number().int().nonnegative().optional().default(0),
   tokenNumber: z.string().trim().min(1).max(100),
   receiptNumber: z.string().trim().max(100).optional().default(''),
   templeName: z.string().trim().min(1).max(200),

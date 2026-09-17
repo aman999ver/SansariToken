@@ -14,6 +14,7 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: 'draf
 app.get('/', (req, res) => sendSuccess(res, { service: 'sansari-token-backend', message: 'Sansari Token API is running', health: '/health' }));
 app.get('/health', (req, res) => sendSuccess(res, { service: 'token-payment-backend', timestamp: new Date().toISOString() }));
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/counters', require('./routes/counterRoutes'));
 app.use('/api/devices', require('./routes/deviceRoutes'));
 app.use('/api/services', require('./routes/serviceRoutes'));
 app.use('/api/sync', require('./routes/syncRoutes'));

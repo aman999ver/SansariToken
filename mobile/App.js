@@ -6,7 +6,7 @@ import { ActivityIndicator, Alert, Pressable, SafeAreaView, ScrollView, StyleShe
 import { createTransaction, countPendingTransactions, getSetting, initializeDatabase, listTransactionsPaginated, setSetting } from './src/database/database';
 import { defaultServices } from './src/constants/defaultServices';
 import { API_BASE_URL, TEMPLE_NAME } from './src/constants/appConfig';
-import { fetchAvailableDevices, fetchServices, loginUser } from './src/services/api';
+import { fetchAvailableDevices, fetchLatestSequence, fetchServices, loginUser } from './src/services/api';
 import { clearUserSettings, getDeviceSettings, saveDeviceSettings, saveUserSettings } from './src/services/deviceSettings';
 import { printerService } from './src/services/printer/mockPrinterService';
 import { syncPendingTransactions } from './src/services/syncService';
@@ -14,7 +14,7 @@ import { getReceiptDetails } from './src/utils/receipt';
 
 export default function App() {
   const [ready, setReady] = useState(false);
-  const [settings, setSettings] = useState({ device_id: '', device_name: '', username: '', user_name: '' });
+  const [settings, setSettings] = useState({ device_id: '', device_name: '', counter_id: '', counter_name: '', username: '', user_name: '' });
   const [services, setServices] = useState(defaultServices);
   const [screen, setScreen] = useState('setup');
   const [selectedService, setSelectedService] = useState(null);
@@ -47,6 +47,20 @@ export default function App() {
         const remoteServices = await fetchServices(API_BASE_URL);
         if (mounted && remoteServices.length) setServices(remoteServices);
       } catch { /* Offline is a normal operating mode. */ }
+
+      // Keep sequence synced with server to prevent repeating after data clear
+      if (state.isConnected && (settings.username || settings.device_id)) {
+        try {
+          const userIdentifier = (settings.username || settings.device_id || 'RCT').toLowerCase();
+          const serverSeq = await fetchLatestSequence(API_BASE_URL, { username: settings.username, deviceId: settings.device_id });
+          const seqKey = `token_sequence:${userIdentifier}`;
+          const localSeq = Number(await getSetting(seqKey) || 0);
+          if (serverSeq > localSeq) {
+            await setSetting(seqKey, serverSeq);
+          }
+        } catch { /* Ignore sequence sync failure */ }
+      }
+
       const result = await syncPendingTransactions({ apiUrl: API_BASE_URL, deviceId: settings.device_id });
       if (mounted) setPendingCount(result.pending);
     };
@@ -56,8 +70,37 @@ export default function App() {
   }, [ready, screen, settings]);
 
   if (!ready) return <Centered><ActivityIndicator size="large" color="#0b6b62" /></Centered>;
-  if (screen === 'login') return <LoginScreen onLogin={async (username, password) => { const user = await loginUser(API_BASE_URL, username, password); await saveUserSettings({ username: user.username, displayName: user.displayName }); setSettings((current) => ({ ...current, username: user.username, user_name: user.displayName })); setScreen(settings.device_id ? 'services' : 'setup'); }} />;
-  if (screen === 'setup') return <SetupScreen settings={settings} onSave={async (next) => { await saveDeviceSettings(next); setSettings((current) => ({ ...current, device_id: next.deviceId, device_name: next.deviceName })); setScreen('services'); }} />;
+  if (screen === 'login') return (
+    <LoginScreen
+      onLogin={async (username, password) => {
+        const user = await loginUser(API_BASE_URL, username, password);
+        await saveUserSettings({ username: user.username, displayName: user.displayName });
+        const seqKey = `token_sequence:${user.username.toLowerCase()}`;
+        const localSeq = Number(await getSetting(seqKey) || 0);
+        if (user.latestSequence && user.latestSequence > localSeq) {
+          await setSetting(seqKey, user.latestSequence);
+        }
+        setSettings((current) => ({ ...current, username: user.username, user_name: user.displayName }));
+        setScreen(settings.device_id ? 'services' : 'setup');
+      }}
+    />
+  );
+  if (screen === 'setup') return (
+    <SetupScreen
+      settings={settings}
+      onSave={async (next) => {
+        await saveDeviceSettings(next);
+        setSettings((current) => ({
+          ...current,
+          device_id: next.deviceId,
+          device_name: next.deviceName,
+          counter_id: next.counterId,
+          counter_name: next.counterName
+        }));
+        setScreen('services');
+      }}
+    />
+  );
   if (screen === 'detail') return <DetailScreen service={selectedService} onBack={() => setScreen('services')} onSelect={(option) => { setSelectedOption(option); setAmount(String(option?.price ?? '')); setScreen('confirm'); }} />;
   if (screen === 'confirm') return <ConfirmScreen service={selectedService} option={selectedOption} amount={amount} setAmount={setAmount} onBack={() => setScreen('detail')} onConfirm={() => generateToken()} />;
   if (screen === 'success') return <SuccessScreen transaction={lastTransaction} onHome={() => setScreen('services')} onHistory={openHistory} />;
@@ -88,15 +131,36 @@ export default function App() {
     if (!Number.isFinite(numericAmount) || numericAmount < 0) return Alert.alert('रकम जाँच गर्नुहोस्', 'मान्य रकम राख्नुहोस्।');
     const now = new Date();
     const receiptDetails = getReceiptDetails(now);
-    const sequenceKey = `token_sequence:${settings.device_id}:${receiptDetails.dateKey}`;
-    const nextSequence = Number(await getSetting(sequenceKey) || 0) + 1;
+
+    // Continuous sequential counter per user/device that never resets on data clear
+    const userIdentifier = (settings.username || settings.device_id || 'RCT').toLowerCase();
+    const sequenceKey = `token_sequence:${userIdentifier}`;
+    const currentSequence = Number(await getSetting(sequenceKey) || 0);
+    const nextSequence = currentSequence + 1;
+
+    // Globally unique receipt number: PREFIX-NEPALI_DATE-TIME-SEQUENCE
+    // Example: USER1-20810528-153407-00006
+    const prefix = (settings.username || settings.device_id || 'RCT').toUpperCase().trim();
+    const uniqueReceiptNo = `${prefix}-${receiptDetails.dateKeyCompact}-${receiptDetails.timeCompact}-${String(nextSequence).padStart(5, '0')}`;
+
     const transaction = {
-      localId: Crypto.randomUUID(), deviceId: settings.device_id, templeName: TEMPLE_NAME,
-      nepaliDate: receiptDetails.nepaliDate, tokenTime: receiptDetails.time,
-      tokenNumber: `${settings.device_id}-${String(nextSequence).padStart(6, '0')}`, receiptNumber: `${settings.device_id}-${String(nextSequence).padStart(6, '0')}`,
-      userName: settings.user_name,
-      serviceId: selectedService.id, serviceName: selectedService.name,
-      itemName: selectedOption?.name || '', amount: numericAmount, paymentMethod: 'cash', createdAt: now.toISOString()
+      localId: Crypto.randomUUID(),
+      deviceId: settings.device_id,
+      counterId: settings.counter_id || 'C1',
+      counterName: settings.counter_name || 'काउन्टर १',
+      sequence: nextSequence,
+      templeName: TEMPLE_NAME,
+      nepaliDate: receiptDetails.nepaliDate,
+      tokenTime: receiptDetails.time,
+      tokenNumber: uniqueReceiptNo,
+      receiptNumber: uniqueReceiptNo,
+      userName: settings.user_name || settings.username,
+      serviceId: selectedService.id,
+      serviceName: selectedService.name,
+      itemName: selectedOption?.name || '',
+      amount: numericAmount,
+      paymentMethod: 'cash',
+      createdAt: now.toISOString()
     };
     try {
       await setSetting(sequenceKey, nextSequence);
@@ -105,6 +169,9 @@ export default function App() {
       await printerService.printToken(transaction);
       const result = await syncPendingTransactions({ apiUrl: API_BASE_URL, deviceId: settings.device_id });
       setPendingCount(result.pending);
+      if (result.latestSequence && result.latestSequence > nextSequence) {
+        await setSetting(sequenceKey, result.latestSequence);
+      }
       setLastTransaction(transaction);
       setScreen('success');
     } catch { Alert.alert('टोकन सुरक्षित भएन', 'लेनदेन सुरक्षित नभएसम्म फेरि प्रयास गर्नुहोस्।'); }
@@ -124,12 +191,117 @@ function LoginScreen({ onLogin }) {
 }
 
 function SetupScreen({ settings, onSave }) {
-  const [devices, setDevices] = useState([]);
-  const [selectedId, setSelectedId] = useState(settings.device_id || '');
+  const [data, setData] = useState({ counters: [], devices: [] });
+  const [selectedCounterId, setSelectedCounterId] = useState(settings.counter_id || '');
+  const [selectedDeviceId, setSelectedDeviceId] = useState(settings.device_id || '');
   const [loading, setLoading] = useState(true);
-  useEffect(() => { fetchAvailableDevices(API_BASE_URL).then(setDevices).catch(() => setDevices([])).finally(() => setLoading(false)); }, []);
-  const selected = devices.find((device) => device.deviceId === selectedId);
-  return <SafeAreaView style={styles.safe}><View style={styles.setup}><Text style={styles.brand}>{TEMPLE_NAME}</Text><Text style={styles.title}>काउन्टर छनोट</Text><Text style={styles.muted}>यो उपकरणमा काउन्टर एकपटक मात्र चयन गर्नुहोस्।</Text>{loading ? <ActivityIndicator color="#0b6b62" /> : devices.length ? devices.map((device) => <Pressable key={device.deviceId} onPress={() => setSelectedId(device.deviceId)} style={[styles.optionButton, selectedId === device.deviceId && styles.selectedOption]}><View><Text style={styles.serviceName}>{device.deviceName}</Text><Text style={styles.serviceMeta}>{device.deviceId}</Text></View><Text style={styles.amount}>{selectedId === device.deviceId ? '✓' : ''}</Text></Pressable>) : <Text style={styles.muted}>कुनै सक्रिय काउन्टर भेटिएन। पहिले admin बाट काउन्टर थप्नुहोस्।</Text>}<PrimaryButton title="काउन्टर सुरक्षित गर्नुहोस्" onPress={() => selected ? onSave({ deviceId: selected.deviceId, deviceName: selected.deviceName }) : Alert.alert('काउन्टर छनोट गर्नुहोस्')} /></View></SafeAreaView>;
+
+  useEffect(() => {
+    fetchAvailableDevices(API_BASE_URL)
+      .then((res) => {
+        setData(res);
+        if (res.counters?.length) {
+          const currentCId = settings.counter_id || res.counters[0].counterId;
+          setSelectedCounterId(currentCId);
+          const foundCounter = res.counters.find((c) => c.counterId === currentCId) || res.counters[0];
+          const matchedDev = foundCounter?.devices?.find((d) => d.deviceId === settings.device_id) || foundCounter?.devices?.[0];
+          if (matchedDev) setSelectedDeviceId(matchedDev.deviceId);
+        }
+      })
+      .catch(() => setData({ counters: [], devices: [] }))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const activeCounters = data.counters || [];
+  const currentCounter = activeCounters.find((c) => c.counterId === selectedCounterId) || activeCounters[0];
+  const counterDevices = currentCounter?.devices?.length
+    ? currentCounter.devices
+    : (data.devices || []).filter((d) => (d.counterId || 'C1') === (currentCounter?.counterId || 'C1'));
+
+  const selectedDevice = (data.devices || []).find((d) => d.deviceId === selectedDeviceId)
+    || counterDevices.find((d) => d.deviceId === selectedDeviceId);
+
+  const handleSave = () => {
+    if (!selectedDevice) {
+      return Alert.alert('उपकरण छनोट गर्नुहोस्', 'कृपया यो काउन्टरको लागि एक उपकरण छान्नुहोस्।');
+    }
+    onSave({
+      deviceId: selectedDevice.deviceId,
+      deviceName: selectedDevice.deviceName,
+      counterId: currentCounter?.counterId || selectedDevice.counterId || 'C1',
+      counterName: currentCounter?.counterName || selectedDevice.counterName || 'काउन्टर १'
+    });
+  };
+
+  return (
+    <SafeAreaView style={styles.safe}>
+      <ScrollView contentContainerStyle={styles.setup}>
+        <Text style={styles.brand}>{TEMPLE_NAME}</Text>
+        <Text style={styles.title}>काउन्टर र उपकरण छनोट</Text>
+        <Text style={styles.muted}>यस मोबाइल/POS उपकरणको काउन्टर र उपकरण ID चयन गर्नुहोस्।</Text>
+
+        {loading ? (
+          <ActivityIndicator color="#0b6b62" style={{ marginVertical: 20 }} />
+        ) : (
+          <>
+            <Text style={[styles.title, { fontSize: 16, marginTop: 12, marginBottom: 8 }]}>१. काउन्टर चयन गर्नुहोस्:</Text>
+            {activeCounters.length ? (
+              <View style={{ gap: 8, marginBottom: 16 }}>
+                {activeCounters.map((counter) => {
+                  const isSelected = (currentCounter?.counterId === counter.counterId);
+                  return (
+                    <Pressable
+                      key={counter.counterId}
+                      onPress={() => {
+                        setSelectedCounterId(counter.counterId);
+                        const firstDev = counter.devices?.[0];
+                        if (firstDev) setSelectedDeviceId(firstDev.deviceId);
+                      }}
+                      style={[styles.optionButton, isSelected && styles.selectedOption]}
+                    >
+                      <View>
+                        <Text style={styles.serviceName}>{counter.counterName}</Text>
+                        <Text style={styles.serviceMeta}>कोड: {counter.counterId} • उपकरण संख्या: {counter.devices?.length || 0}</Text>
+                      </View>
+                      <Text style={styles.amount}>{isSelected ? '✓' : ''}</Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            ) : (
+              <Text style={styles.muted}>कुनै सक्रिय काउन्टर भेटिएन। पहिले Admin बाट काउन्टर थप्नुहोस्।</Text>
+            )}
+
+            <Text style={[styles.title, { fontSize: 16, marginTop: 8, marginBottom: 8 }]}>२. उपकरण (Device / POS) चयन गर्नुहोस्:</Text>
+            {counterDevices.length ? (
+              <View style={{ gap: 8, marginBottom: 20 }}>
+                {counterDevices.map((device) => {
+                  const isDevSelected = (selectedDeviceId === device.deviceId);
+                  return (
+                    <Pressable
+                      key={device.deviceId}
+                      onPress={() => setSelectedDeviceId(device.deviceId)}
+                      style={[styles.optionButton, isDevSelected && styles.selectedOption]}
+                    >
+                      <View>
+                        <Text style={styles.serviceName}>{device.deviceName}</Text>
+                        <Text style={styles.serviceMeta}>उपकरण ID: {device.deviceId}</Text>
+                      </View>
+                      <Text style={styles.amount}>{isDevSelected ? '✓' : ''}</Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            ) : (
+              <Text style={[styles.muted, { marginBottom: 20 }]}>यो काउन्टरमा कुनै उपकरण थपिएको छैन। Admin बाट उपकरण थप्नुहोस्।</Text>
+            )}
+
+            <PrimaryButton title="काउन्टर र उपकरण सुरक्षित गर्नुहोस्" onPress={handleSave} />
+          </>
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 function ServiceScreen({ services, settings, pendingCount, online, onSelect, onHistory, onLogout }) {
@@ -138,7 +310,7 @@ function ServiceScreen({ services, settings, pendingCount, online, onSelect, onH
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <View style={{ flex: 1, paddingRight: 10 }}>
-            <Text style={styles.eyebrow}>{settings?.device_name ? `${settings.device_name} (${settings.device_id})` : 'सेवा छनोट'}</Text>
+            <Text style={styles.eyebrow}>{settings?.counter_name || 'काउन्टर'} • {settings?.device_name || settings?.device_id}</Text>
             <Text style={styles.title}>आजको संकलन</Text>
             {settings?.user_name ? (
               <View style={styles.operatorRow}>

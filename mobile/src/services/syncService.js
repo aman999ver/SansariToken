@@ -22,7 +22,7 @@ export async function syncPendingTransactions({ apiUrl, deviceId }) {
       await pruneOldSyncedTransactions(2);
       const failed = (result.failed || []).map((item) => item.localId).filter(Boolean);
       await markFailed(failed);
-      return { synced: accepted.length, pending: await countPendingTransactions() };
+      return { synced: accepted.length, pending: await countPendingTransactions(), latestSequence: result.latestSequence };
     } catch (error) {
       await markFailed(localIds);
       return { synced: 0, pending: await countPendingTransactions(), error: error.message };

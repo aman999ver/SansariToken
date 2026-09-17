@@ -66,6 +66,8 @@ function buildNepaliDatePattern(input) {
 
 async function dateMatch(query) {
   const match = {};
+  if (query.counterId && query.counterId !== 'ALL') match.counterId = query.counterId;
+  if (query.counterName && query.counterName !== 'ALL') match.counterName = query.counterName;
   if (query.deviceId && query.deviceId !== 'ALL') match.deviceId = query.deviceId;
   if (query.serviceId && query.serviceId !== 'ALL') match.serviceId = query.serviceId;
   if (query.serviceName && query.serviceName !== 'ALL') match.serviceName = query.serviceName;
@@ -130,13 +132,15 @@ async function dateMatch(query) {
 
 async function summary(req, res) {
   const match = await dateMatch(req.query);
-  const [totals, devices, services] = await Promise.all([
+  const [totals, counters, devices, services] = await Promise.all([
     Transaction.aggregate([{ $match: match }, { $group: { _id: null, tokens: { $sum: 1 }, collection: { $sum: '$amount' } } }]),
+    Transaction.aggregate([{ $match: match }, { $group: { _id: '$counterName', tokens: { $sum: 1 }, collection: { $sum: '$amount' } } }, { $sort: { collection: -1 } }]),
     Transaction.aggregate([{ $match: match }, { $group: { _id: '$deviceId', tokens: { $sum: 1 }, collection: { $sum: '$amount' } } }, { $sort: { collection: -1 } }]),
     Transaction.aggregate([{ $match: match }, { $group: { _id: '$serviceName', tokens: { $sum: 1 }, collection: { $sum: '$amount' } } }, { $sort: { collection: -1 } }])
   ]);
   return sendSuccess(res, {
     totals: totals[0] || { tokens: 0, collection: 0 },
+    counters: counters.map((c) => ({ counterName: c._id || 'काउन्टर १', tokens: c.tokens, collection: c.collection })),
     devices: devices.map((d) => ({ deviceId: d._id, tokens: d.tokens, collection: d.collection })),
     services: services.map((s) => ({ serviceName: s._id || 'General', tokens: s.tokens, collection: s.collection }))
   });
