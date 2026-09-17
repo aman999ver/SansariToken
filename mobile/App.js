@@ -140,7 +140,7 @@ export default function App() {
 
     // Globally unique receipt number: PREFIX-NEPALI_DATE-SEQUENCE
     // Example: USER1-830601-00006
-    const prefix = (settings.username || settings.device_id || 'RCT').toUpperCase().trim();
+    const prefix = (settings.device_id || 'RCT').toUpperCase().trim();
     const uniqueReceiptNo = `${prefix}-${receiptDetails.dateKeyCompact}-${String(nextSequence).padStart(5, '0')}`;
 
     const transaction = {
