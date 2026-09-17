@@ -235,7 +235,7 @@ function SetupScreen({ settings, onSave }) {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <ScrollView contentContainerStyle={styles.setup}>
+      <ScrollView contentContainerStyle={[styles.setup, { flex: undefined, flexGrow: 1, paddingBottom: 60 }]}>
         <Text style={styles.brand}>{TEMPLE_NAME}</Text>
         <Text style={styles.title}>काउन्टर र उपकरण छनोट</Text>
         <Text style={styles.muted}>यस मोबाइल/POS उपकरणको काउन्टर र उपकरण ID चयन गर्नुहोस्।</Text>
